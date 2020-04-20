@@ -1,5 +1,6 @@
 class Usuario {
   Usuario(int id, String nombre, String pass, String email);
+
   int id;
   String nombre;
   String pass;

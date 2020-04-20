@@ -20,20 +20,20 @@
   <component name="PropertiesComponent">
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/api/services" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/pages" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Kotka\Desktop\Apps\whatscookin\lib\api\services" />
-      <recent name="D:\Kotka\Desktop\Apps\whatscookin\lib\api\classes" />
-      <recent name="D:\Kotka\Desktop\Apps\whatscookin\lib\pages" />
-      <recent name="D:\Kotka\Desktop\Apps\whatscookin\fonts" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Kotka\Desktop\Apps\whatscookin\assets\images" />
       <recent name="D:\Kotka\Desktop\Apps\whatscookin\lib" />
       <recent name="D:\Kotka\Desktop\Apps\whatscookin\lib\pages" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Kotka\Desktop\Apps\whatscookin\lib\pages" />
+      <recent name="D:\Kotka\Desktop\Apps\whatscookin\lib\api\classes" />
+      <recent name="D:\Kotka\Desktop\Apps\whatscookin\lib\api\services" />
+      <recent name="D:\Kotka\Desktop\Apps\whatscookin\fonts" />
     </key>
   </component>
   <component name="RunDashboard">
