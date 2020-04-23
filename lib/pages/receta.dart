@@ -11,7 +11,7 @@ import 'package:whatscookin/api/widgets/StarRating.dart';
 // TODO: Dónde añadir los ingredientes?
 
 
-int idReceta = 4; // TODO: Obtener el id de la receta de la vista anterior
+int idReceta = 3; // TODO: Obtener el id de la receta de la vista anterior
 
 int idUsuario;
 
@@ -121,7 +121,7 @@ class _RecetaState extends State<Receta> {
                 Image(
                   image: NetworkImage(image),
                   fit: BoxFit.fill,
-                  width: MediaQuery.of(context).size.width * 100,
+                  width: MediaQuery.of(context).size.width,
                   height: 300.0,
                   loadingBuilder: (BuildContext context, Widget child,
                       ImageChunkEvent loadingProcess) {
@@ -138,8 +138,8 @@ class _RecetaState extends State<Receta> {
                   },
                 ),
                 Positioned(
-                  top: 10.0,
-                  left: 4.0,
+                  top: MediaQuery.of(context).size.height * 0.02,
+                  left: MediaQuery.of(context).size.width * 0.05,
                   child: IconButton(
                     icon: Icon(Icons.arrow_back, size: 40, color: Colors.white),
                     onPressed: () {
@@ -148,8 +148,8 @@ class _RecetaState extends State<Receta> {
                   ),
                 ),
                 Positioned(
-                  top: 10.0,
-                  left: 320.0,
+                  top: MediaQuery.of(context).size.height * 0.02,
+                  right: MediaQuery.of(context).size.width * 0.10,
                   child: IconButton(
                     icon: Icon(favIcon, size: 40, color: favColor),
                     onPressed: () {

@@ -66,8 +66,8 @@ class RegistroPageState extends State<Registro> {
                 ),
               ),
               Positioned(
-                top: 10.0,
-                left: 4.0,
+                top: MediaQuery.of(context).size.height * 0.02,
+                left: MediaQuery.of(context).size.width * 0.04,
                 child: IconButton(
                   icon: Icon(Icons.arrow_back,
                       size: 40,
