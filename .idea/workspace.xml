@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="7b1e998e-9582-4145-bdea-266887c18d89" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,20 +25,21 @@
   <component name="PropertiesComponent">
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/pages" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/icon" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Kotka\Desktop\Apps\whatscookin\assets\images" />
-      <recent name="D:\Kotka\Desktop\Apps\whatscookin\lib" />
-      <recent name="D:\Kotka\Desktop\Apps\whatscookin\lib\pages" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Kotka\Desktop\Apps\whatscookin\assets\icon" />
       <recent name="D:\Kotka\Desktop\Apps\whatscookin\lib\pages" />
       <recent name="D:\Kotka\Desktop\Apps\whatscookin\lib\api\classes" />
       <recent name="D:\Kotka\Desktop\Apps\whatscookin\lib\api\services" />
       <recent name="D:\Kotka\Desktop\Apps\whatscookin\fonts" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Kotka\Desktop\Apps\whatscookin\assets\images" />
+      <recent name="D:\Kotka\Desktop\Apps\whatscookin\lib" />
+      <recent name="D:\Kotka\Desktop\Apps\whatscookin\lib\pages" />
     </key>
   </component>
   <component name="RunDashboard">

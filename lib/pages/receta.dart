@@ -9,7 +9,7 @@ import 'package:whatscookin/api/widgets/StarRating.dart';
 
 int idUsuarioLogin = 1; // TODO: Obtener id del logeado con shared properties
 
-int idReceta = 4; // TODO: Obtener el id de la receta de la vista anterior
+int idReceta = 4;
 int idUsuario; // Id del usuario autor de la receta
 int idDificultad; // Id de la dificultad de la receta
 int idTipoReceta; // Id del tipo de receta
@@ -58,7 +58,6 @@ class _RecetaState extends State<Receta> {
   @override
   void initState() {
     super.initState();
-    getData();
   }
 
   getData() async {
@@ -160,6 +159,17 @@ class _RecetaState extends State<Receta> {
     FlutterStatusbarcolor.setStatusBarColor(Colors.deepOrangeAccent);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
 
+    idReceta = ModalRoute.of(context)
+        .settings
+        .arguments; // TODO: No se buildea de nuevo
+    // TODO: Esta es la unica forma, pero realiza llamadas ilimitadas
+    esFavorita = false;
+    recetaLoaded = false;
+    usuarioLoaded = false;
+    favoritoLoaded = false;
+    ingredientesLoaded = false;
+
+    getData();
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -293,11 +303,12 @@ class _RecetaState extends State<Receta> {
                             height: 20.0,
                             padding: EdgeInsets.all(2.0),
                             child: Container(
-
                               child: Container(
                                 decoration: BoxDecoration(
-                                  border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor)
-                                  ),
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color:
+                                              Theme.of(context).dividerColor)),
                                 ),
                                 child: Text(
                                   ingredientes[index]['ingrediente'],

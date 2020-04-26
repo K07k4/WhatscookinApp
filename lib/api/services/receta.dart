@@ -24,7 +24,7 @@ Future<Receta> getReceta(int idReceta) async {
 
     return receta;
   } else {
-    throw Exception('No se ha encontrado la receta');
+    getReceta(idReceta);
   }
 }
 

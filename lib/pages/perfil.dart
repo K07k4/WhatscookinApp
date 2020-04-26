@@ -168,23 +168,28 @@ class _PerfilState extends State<Perfil> {
                   Expanded(
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(5.0),
-                          child: Image.network(
-                            misFavoritas[index]['image'],
-                            fit: BoxFit.cover,
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.deepOrange),
-                                  value: loadingProgress.expectedTotalBytes !=
-                                          null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes
-                                      : null,
-                                ),
-                              );
+                          child: FlatButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, "/receta", arguments: misFavoritas[index]["id"]);
                             },
+                            child: Image.network(
+                              misFavoritas[index]['image'],
+                              fit: BoxFit.cover,
+                              loadingBuilder: (BuildContext context, Widget child,
+                                  ImageChunkEvent loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor: new AlwaysStoppedAnimation<Color>(Colors.deepOrange),
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress.cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes
+                                        : null,
+                                  ),
+                                );
+                              },
+                            ),
                           ))),
                   SizedBox(
                     height: 5.0,

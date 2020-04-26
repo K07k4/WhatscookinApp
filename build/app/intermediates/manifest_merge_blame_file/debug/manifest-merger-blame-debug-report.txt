@@ -28,9 +28,9 @@
 24        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 24-->[androidx.core:core:1.0.0] C:\Users\Kotka\.gradle\caches\transforms-2\files-2.1\7faf2ad74a0b9932e38d86e684646e95\core-1.0.0\AndroidManifest.xml:22:18-86
 25        android:debuggable="true"
-26        android:icon="@mipmap/ic_launcher"
-26-->D:\Kotka\Desktop\Apps\whatscookin\android\app\src\main\AndroidManifest.xml:11:9-43
-27        android:label="whatscookin" >
+26        android:icon="@mipmap/launcher_icon"
+26-->D:\Kotka\Desktop\Apps\whatscookin\android\app\src\main\AndroidManifest.xml:11:9-45
+27        android:label="Whatscookin" >
 27-->D:\Kotka\Desktop\Apps\whatscookin\android\app\src\main\AndroidManifest.xml:10:9-36
 28        <activity
 28-->D:\Kotka\Desktop\Apps\whatscookin\android\app\src\main\AndroidManifest.xml:12:9-23:20
