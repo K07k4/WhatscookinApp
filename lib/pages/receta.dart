@@ -4,9 +4,8 @@ import 'package:whatscookin/api/api.dart' as api;
 import 'package:whatscookin/api/services/usuario.dart' as apiUsuario;
 import 'package:whatscookin/api/services/receta.dart' as apiReceta;
 import 'package:whatscookin/api/services/favorito.dart' as apiFavorito;
+import 'package:whatscookin/api/services/ingrediente.dart' as apiIngrediente;
 import 'package:whatscookin/api/widgets/StarRating.dart';
-
-// TODO: Dónde añadir los ingredientes?
 
 int idUsuarioLogin = 1; // TODO: Obtener id del logeado con shared properties
 
@@ -29,9 +28,13 @@ bool usuarioLoaded =
     false; // Comprueba que haya hecho las llamadas relacionadas con el usuario
 bool favoritoLoaded =
     false; // Comprueba que haya hecho las llamadas relacionadas con el favorito
+bool ingredientesLoaded =
+    false; // Comprueba que haya hecho la llamada de los ingredientes
 
 var favIcon = Icons.favorite_border;
 var favColor = Colors.white;
+
+List<Map> ingredientes = [];
 
 double puntuacionDialog = 0.0;
 
@@ -44,6 +47,9 @@ class _RecetaState extends State<Receta> {
   var usuario;
   var receta;
   var favoritos;
+
+  List<dynamic> listIngredientes = [];
+  List<Map> ingredientes = [];
 
   String image = "https://images2.imgbox.com/f6/7e/pXXtJViL_o.jpg";
   String avatar =
@@ -59,6 +65,7 @@ class _RecetaState extends State<Receta> {
     if (!recetaLoaded || !usuarioLoaded) {
       await infoReceta();
       await infoUsuario();
+      await infoIngredientes();
       await infoFavorito();
       print("Llamadas realizadas");
       setState(() {});
@@ -71,7 +78,7 @@ class _RecetaState extends State<Receta> {
       idUsuario = receta.idUsuario;
       idDificultad = receta.idDificultad;
       idTipoReceta = receta.idTipoReceta;
-      puntuacion = receta.puntuacion/2;
+      puntuacion = receta.puntuacion / 2;
 
       titulo = receta.titulo;
       instrucciones = receta.instrucciones;
@@ -127,6 +134,25 @@ class _RecetaState extends State<Receta> {
       }
     }
     favoritoLoaded = true;
+  }
+
+  infoIngredientes() async {
+    if (ingredientesLoaded == false) {
+      listIngredientes =
+          await Future.value(apiIngrediente.getIngredientesReceta(idReceta));
+
+      if (listIngredientes.length > 0) {
+        ingredientes.clear();
+
+        for (int i = 0; i < listIngredientes.length; i++) {
+          var map = {};
+          map['ingrediente'] = listIngredientes[i].ingrediente;
+
+          ingredientes.add(map);
+        }
+      }
+    }
+    ingredientesLoaded = true;
   }
 
   @override
@@ -242,16 +268,48 @@ class _RecetaState extends State<Receta> {
                             side: BorderSide(color: Colors.deepOrange)),
                         child: Text(
                           nombreUsuario,
-                          style: TextStyle(fontSize: 15.0,
-                          color: Colors.black),
-                        // TODO: Llevar al perfil del autor... O no
+                          style: TextStyle(fontSize: 15.0, color: Colors.black),
+                          // TODO: Llevar al perfil del autor... O no
                         ),
-                         // TODO: Llevar al perfil del autor
+                        // TODO: Llevar al perfil del autor
                       ),
                     ],
                   ),
                   SizedBox(
                     height: 20.0,
+                  ),
+                  Container(
+                    color: Colors.white,
+                    height: 40.0,
+                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: ingredientes.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: 5.0, horizontal: 10.0),
+                            height: 20.0,
+                            padding: EdgeInsets.all(2.0),
+                            child: Container(
+
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor)
+                                  ),
+                                ),
+                                child: Text(
+                                  ingredientes[index]['ingrediente'],
+                                  style: TextStyle(fontStyle: FontStyle.italic),
+                                ),
+                              ),
+                            ));
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.0,
                   ),
                   Container(
                     height: 30,

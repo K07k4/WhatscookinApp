@@ -74,3 +74,4 @@ Future<TipoReceta> getTipoReceta(int idTipoReceta) async {
 puntuar(int idReceta, int idUsuario, double puntuacion) async {
   await http.post(path + "/puntuar?idReceta="+idReceta.toString()+"&idUsuario="+idUsuario.toString()+"&puntuacion="+puntuacion.toString());
 }
+
