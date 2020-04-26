@@ -18,18 +18,18 @@ class StarRating extends StatelessWidget {
     if (index >= rating) {
       icon = new Icon(
         Icons.star_border,
-        color: Colors.lightGreen,
+        color: Colors.white70,
       );
     }
     else if (index > rating - 1 && index < rating) {
       icon = new Icon(
         Icons.star_half,
-        color: color ?? Colors.lightGreen,
+        color: color ?? Colors.yellowAccent,
       );
     } else {
       icon = new Icon(
         Icons.star,
-        color: color ?? Colors.lightGreen,
+        color: color ?? Colors.yellowAccent,
       );
     }
     return new InkResponse(

@@ -43,3 +43,11 @@ Future<List> getRecetasFavoritasDeUsuario(int idUsuario) async {
     throw Exception('No se han encontrado recetas');
   }
 }
+
+setFavorito(int idUsuario, int idReceta) async {
+  await http.post(path + "/add?idUsuario=" + idUsuario.toString() + "&idReceta=" + idReceta.toString());
+}
+
+deleteFavorito(int idUsuario, int idReceta) async {
+  await http.delete(path + "/delete?idUsuario=" + idUsuario.toString() + "&idReceta=" + idReceta.toString());
+}

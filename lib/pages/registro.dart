@@ -15,7 +15,6 @@ class RegistroPageState extends State<Registro> {
       backgroundColor: Colors.white,
       body: ListView(
         children: <Widget>[
-
           Stack(
             children: <Widget>[
               ClipPath(
@@ -52,9 +51,8 @@ class RegistroPageState extends State<Registro> {
                         "Whatscookin",
                         style: TextStyle(
                             color: Colors.white,
-
                             fontSize: 70,
-                        fontFamily: 'Alegra'),
+                            fontFamily: 'Alegra'),
                       ),
                     ],
                   ),
@@ -69,9 +67,7 @@ class RegistroPageState extends State<Registro> {
                 top: MediaQuery.of(context).size.height * 0.02,
                 left: MediaQuery.of(context).size.width * 0.04,
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back,
-                      size: 40,
-                      color: Colors.white),
+                  icon: Icon(Icons.arrow_back, size: 40, color: Colors.white),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -88,7 +84,7 @@ class RegistroPageState extends State<Registro> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
-                onChanged: (String value){},
+                onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
                     hintText: "Usuario",
@@ -102,7 +98,7 @@ class RegistroPageState extends State<Registro> {
                     ),
                     border: InputBorder.none,
                     contentPadding:
-                    EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
               ),
             ),
           ),
@@ -116,7 +112,7 @@ class RegistroPageState extends State<Registro> {
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
                 keyboardType: TextInputType.emailAddress,
-                onChanged: (String value){},
+                onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
                     hintText: "Email",
@@ -130,7 +126,7 @@ class RegistroPageState extends State<Registro> {
                     ),
                     border: InputBorder.none,
                     contentPadding:
-                    EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
               ),
             ),
           ),
@@ -144,7 +140,7 @@ class RegistroPageState extends State<Registro> {
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
                 obscureText: true,
-                onChanged: (String value){},
+                onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
                     hintText: "Contraseña",
@@ -158,7 +154,7 @@ class RegistroPageState extends State<Registro> {
                     ),
                     border: InputBorder.none,
                     contentPadding:
-                    EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
               ),
             ),
           ),
@@ -172,7 +168,7 @@ class RegistroPageState extends State<Registro> {
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
                 obscureText: true,
-                onChanged: (String value){},
+                onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
                     hintText: "Repita la contraseña",
@@ -186,7 +182,7 @@ class RegistroPageState extends State<Registro> {
                     ),
                     border: InputBorder.none,
                     contentPadding:
-                    EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
               ),
             ),
           ),
@@ -210,9 +206,10 @@ class RegistroPageState extends State<Registro> {
                   onPressed: () {},
                 ),
               )),
-          SizedBox(height: 25,),
+          SizedBox(
+            height: 25,
+          ),
           // TODO: Como lo pongo arriba a la izquierda?
-
         ],
       ),
     );

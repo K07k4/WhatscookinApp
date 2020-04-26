@@ -69,3 +69,8 @@ Future<TipoReceta> getTipoReceta(int idTipoReceta) async {
     throw Exception('No se ha encontrado el tipo de receta');
   }
 }
+
+
+puntuar(int idReceta, int idUsuario, double puntuacion) async {
+  await http.post(path + "/puntuar?idReceta="+idReceta.toString()+"&idUsuario="+idUsuario.toString()+"&puntuacion="+puntuacion.toString());
+}

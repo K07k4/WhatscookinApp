@@ -3,34 +3,37 @@ import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:whatscookin/api/api.dart' as api;
 import 'package:whatscookin/api/services/usuario.dart' as apiUsuario;
 import 'package:whatscookin/api/services/receta.dart' as apiReceta;
+import 'package:whatscookin/api/services/favorito.dart' as apiFavorito;
 import 'package:whatscookin/api/widgets/StarRating.dart';
 
-// TODO: Añadir posibilidad de puntuar
-// TODO: Cargar si está o no en favoritos
-// TODO: Añadir/eliminar de favoritos
 // TODO: Dónde añadir los ingredientes?
 
+int idUsuarioLogin = 1; // TODO: Obtener id del logeado con shared properties
 
-int idReceta = 3; // TODO: Obtener el id de la receta de la vista anterior
+int idReceta = 4; // TODO: Obtener el id de la receta de la vista anterior
+int idUsuario; // Id del usuario autor de la receta
+int idDificultad; // Id de la dificultad de la receta
+int idTipoReceta; // Id del tipo de receta
 
-int idUsuario;
-
-int idDificultad;
-
-int idTipoReceta;
-
-String titulo = "";
-String nombreUsuario = "";
-String dificultad = "";
-String tipoReceta = "";
-int duracion = 0;
-var puntuacion = 0.0;
-String instrucciones = "";
-bool recetaLoaded = false;
-bool usuarioLoaded = false;
+String titulo = ""; // Titulo de la receta
+String nombreUsuario = ""; // Nombre del autor de la receta
+String dificultad = ""; // Dificultad de la receta
+String tipoReceta = ""; // Tipo de receta
+int duracion = 0; // Duracion de la receta
+var puntuacion = 0.0; // Puntuacion media de la receta
+String instrucciones = ""; // Instrucciones de la receta
+bool esFavorita = false; // Favorita o no por el usuario visitando
+bool recetaLoaded =
+    false; // Comprueba que haya hecho las llamadas relacionadas con la receta
+bool usuarioLoaded =
+    false; // Comprueba que haya hecho las llamadas relacionadas con el usuario
+bool favoritoLoaded =
+    false; // Comprueba que haya hecho las llamadas relacionadas con el favorito
 
 var favIcon = Icons.favorite_border;
 var favColor = Colors.white;
+
+double puntuacionDialog = 0.0;
 
 class Receta extends StatefulWidget {
   @override
@@ -40,6 +43,7 @@ class Receta extends StatefulWidget {
 class _RecetaState extends State<Receta> {
   var usuario;
   var receta;
+  var favoritos;
 
   String image = "https://images2.imgbox.com/f6/7e/pXXtJViL_o.jpg";
   String avatar =
@@ -55,6 +59,7 @@ class _RecetaState extends State<Receta> {
     if (!recetaLoaded || !usuarioLoaded) {
       await infoReceta();
       await infoUsuario();
+      await infoFavorito();
       print("Llamadas realizadas");
       setState(() {});
     }
@@ -66,7 +71,7 @@ class _RecetaState extends State<Receta> {
       idUsuario = receta.idUsuario;
       idDificultad = receta.idDificultad;
       idTipoReceta = receta.idTipoReceta;
-      puntuacion = receta.puntuacion;
+      puntuacion = receta.puntuacion/2;
 
       titulo = receta.titulo;
       instrucciones = receta.instrucciones;
@@ -107,10 +112,28 @@ class _RecetaState extends State<Receta> {
     usuarioLoaded = true;
   }
 
+  infoFavorito() async {
+    if (favoritoLoaded == false) {
+      favoritos = await Future.value(
+          apiFavorito.getRecetasFavoritasDeUsuario(idUsuarioLogin));
+      List<dynamic> lista = favoritos;
+      for (int i = 0; i < lista.length; i++) {
+        if (lista[i].idReceta == idReceta) {
+          esFavorita = true;
+          favIcon = Icons.favorite;
+          favColor = Colors.deepOrangeAccent;
+          break;
+        }
+      }
+    }
+    favoritoLoaded = true;
+  }
+
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(Colors.deepOrangeAccent);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -156,13 +179,30 @@ class _RecetaState extends State<Receta> {
                       if (favIcon == Icons.favorite_border) {
                         favIcon = Icons.favorite;
                         favColor = Colors.deepOrangeAccent;
+                        apiFavorito.setFavorito(idUsuarioLogin, idReceta);
                       } else {
                         favIcon = Icons.favorite_border;
                         favColor = Colors.white;
+                        apiFavorito.deleteFavorito(idUsuarioLogin, idReceta);
                       }
-                      // TODO: Añadir funcionalidad de favorito
                       setState(() {});
                     },
+                  ),
+                ),
+                Positioned(
+                  top: MediaQuery.of(context).size.height * 0.30,
+                  left: MediaQuery.of(context).size.width * 0.03,
+                  child: FlatButton(
+                    child: StarRating(
+                      rating: puntuacion,
+                    ),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (_) {
+                            return MyDialog();
+                          });
+                    }, // TODO: Hacer algo para cambiar el voto. También debería salir la puntuación media con número
                   ),
                 ),
               ],
@@ -180,45 +220,34 @@ class _RecetaState extends State<Receta> {
                     ),
                   ),
                   SizedBox(
-                    height: 20.0,
+                    height: 15.0,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          FlatButton(
-                            child: CircleAvatar(
-                              radius: 20.0,
-                              backgroundImage: NetworkImage(avatar),
-                            ),
-                            onPressed:
-                                () {}, // TODO: Llevar al perfil del autor
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          FlatButton(
-                            child: Text(
-                              nombreUsuario,
-                              style: TextStyle(fontSize: 15.0),
-                            ),
-                            onPressed:
-                                () {}, // TODO: Llevar al perfil del autor
-                          ),
-                        ],
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: FlatButton(
-                          child: StarRating(
-                            rating: puntuacion,
-                          ),
-                          onPressed:
-                              () {}, // TODO: Hacer algo para cambiar el voto. También debería salir la puntuación media con número
+                      FlatButton(
+                        shape: CircleBorder(
+                            side: BorderSide(color: Colors.deepOrange)),
+                        child: CircleAvatar(
+                          radius: 20.0,
+                          backgroundImage: NetworkImage(avatar),
                         ),
-                      )
+                        onPressed:
+                            () {}, // TODO: Llevar al perfil del autor... O no
+                      ),
+                      FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            side: BorderSide(color: Colors.deepOrange)),
+                        child: Text(
+                          nombreUsuario,
+                          style: TextStyle(fontSize: 15.0,
+                          color: Colors.black),
+                        // TODO: Llevar al perfil del autor... O no
+                        ),
+                         // TODO: Llevar al perfil del autor
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -314,6 +343,56 @@ class _RecetaState extends State<Receta> {
           ),
         )
       ],
+    );
+  }
+}
+
+class MyDialog extends StatefulWidget {
+  @override
+  _MyDialogState createState() => new _MyDialogState();
+}
+
+class _MyDialogState extends State<MyDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+              height: 100.0,
+              width: 250,
+              child: Slider(
+                  value: puntuacionDialog,
+                  min: 0.0,
+                  max: 5.0,
+                  divisions: 10,
+                  activeColor: Colors.deepOrange,
+                  label: "$puntuacionDialog",
+                  onChanged: (double newValue) {
+                    setState(() => puntuacionDialog = newValue);
+                  })),
+          FlatButton(
+            child: Text(
+              "Votar",
+              style: TextStyle(fontSize: 20.0, color: Colors.deepOrange),
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0)),
+            onPressed: () async {
+              apiReceta.puntuar(idReceta, idUsuarioLogin, puntuacionDialog);
+              Navigator.pop(context);
+            },
+          ),
+          SizedBox(
+            height: 20,
+          ),
+        ],
+      ),
     );
   }
 }
