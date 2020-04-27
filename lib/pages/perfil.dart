@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:whatscookin/api/classes/Usuario.dart';
 import 'package:whatscookin/api/api.dart' as api;
 import 'package:whatscookin/api/services/usuario.dart' as apiUsuario;
@@ -39,11 +40,13 @@ class _PerfilState extends State<Perfil> {
   }
 
   getData() async {
-    infoUsuario();
-    recetasUsuario();
-    recetasFavoritas();
-    print("Llamadas realizadas");
-    loaded = true;
+    setState(() {
+      infoUsuario();
+      recetasUsuario();
+      recetasFavoritas();
+      print("Llamadas realizadas");
+      loaded = true;
+    });
   }
 
   infoUsuario() async {
@@ -113,6 +116,7 @@ class _PerfilState extends State<Perfil> {
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     return FutureBuilder(
       future: getData(),
       builder: (context, snapshot) {

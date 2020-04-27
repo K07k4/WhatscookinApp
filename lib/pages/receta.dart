@@ -58,17 +58,19 @@ class _RecetaState extends State<Receta> {
   @override
   void initState() {
     super.initState();
+    getData();
+    setState(() {});
   }
 
   getData() async {
     if (!recetaLoaded || !usuarioLoaded) {
-      await infoReceta();
-      await infoUsuario();
-      await infoIngredientes();
-      await infoFavorito();
+      infoReceta();
+      infoUsuario();
+      infoIngredientes();
+      infoFavorito();
       print("Llamadas realizadas");
-      setState(() {});
     }
+    setState(() {});
   }
 
   infoReceta() async {
@@ -100,6 +102,7 @@ class _RecetaState extends State<Receta> {
       tipoReceta = itemTipoReceta.nombre;
     }
     recetaLoaded = true;
+    setState(() {});
   }
 
   infoUsuario() async {
@@ -116,6 +119,7 @@ class _RecetaState extends State<Receta> {
       nombreUsuario = usuario.nombre;
     }
     usuarioLoaded = true;
+    setState(() {});
   }
 
   infoFavorito() async {
@@ -133,6 +137,7 @@ class _RecetaState extends State<Receta> {
       }
     }
     favoritoLoaded = true;
+    setState(() {});
   }
 
   infoIngredientes() async {
@@ -152,230 +157,243 @@ class _RecetaState extends State<Receta> {
       }
     }
     ingredientesLoaded = true;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.deepOrangeAccent);
-    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
-
+    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+/*
     idReceta = ModalRoute.of(context)
         .settings
         .arguments; // TODO: No se buildea de nuevo
     // TODO: Esta es la unica forma, pero realiza llamadas ilimitadas
-    esFavorita = false;
-    recetaLoaded = false;
-    usuarioLoaded = false;
-    favoritoLoaded = false;
-    ingredientesLoaded = false;
 
-    getData();
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Image(
-                  image: NetworkImage(image),
-                  fit: BoxFit.fill,
-                  width: MediaQuery.of(context).size.width,
-                  height: 300.0,
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent loadingProcess) {
-                    if (loadingProcess == null) return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                              Colors.deepOrange),
-                          value: loadingProcess.expectedTotalBytes != null
-                              ? loadingProcess.cumulativeBytesLoaded /
-                                  loadingProcess.expectedTotalBytes
-                              : null),
-                    );
-                  },
-                ),
-                Positioned(
-                  top: MediaQuery.of(context).size.height * 0.02,
-                  left: MediaQuery.of(context).size.width * 0.05,
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_back, size: 40, color: Colors.white),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-                Positioned(
-                  top: MediaQuery.of(context).size.height * 0.02,
-                  right: MediaQuery.of(context).size.width * 0.10,
-                  child: IconButton(
-                    icon: Icon(favIcon, size: 40, color: favColor),
-                    onPressed: () {
-                      if (favIcon == Icons.favorite_border) {
-                        favIcon = Icons.favorite;
-                        favColor = Colors.deepOrangeAccent;
-                        apiFavorito.setFavorito(idUsuarioLogin, idReceta);
-                      } else {
-                        favIcon = Icons.favorite_border;
-                        favColor = Colors.white;
-                        apiFavorito.deleteFavorito(idUsuarioLogin, idReceta);
-                      }
-                      setState(() {});
-                    },
-                  ),
-                ),
-                Positioned(
-                  top: MediaQuery.of(context).size.height * 0.30,
-                  left: MediaQuery.of(context).size.width * 0.03,
-                  child: FlatButton(
-                    child: StarRating(
-                      rating: puntuacion,
-                    ),
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return MyDialog();
-                          });
-                    }, // TODO: Hacer algo para cambiar el voto. También debería salir la puntuación media con número
-                  ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.all(20.0),
+ */
+    return FutureBuilder(
+        future: getData(),
+        builder: (context, snapshot) {
+          return SafeArea(
+            child: Scaffold(
+              backgroundColor: Colors.white,
+              body: Column(
                 children: <Widget>[
-                  Text(
-                    titulo.toUpperCase(),
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  Stack(
                     children: <Widget>[
-                      FlatButton(
-                        shape: CircleBorder(
-                            side: BorderSide(color: Colors.deepOrange)),
-                        child: CircleAvatar(
-                          radius: 20.0,
-                          backgroundImage: NetworkImage(avatar),
-                        ),
-                        onPressed:
-                            () {}, // TODO: Llevar al perfil del autor... O no
+                      Image(
+                        image: NetworkImage(image),
+                        fit: BoxFit.fill,
+                        width: MediaQuery.of(context).size.width,
+                        height: 300.0,
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent loadingProcess) {
+                          if (loadingProcess == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                                valueColor: new AlwaysStoppedAnimation<Color>(
+                                    Colors.deepOrange),
+                                value: loadingProcess.expectedTotalBytes != null
+                                    ? loadingProcess.cumulativeBytesLoaded /
+                                        loadingProcess.expectedTotalBytes
+                                    : null),
+                          );
+                        },
                       ),
-                      FlatButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            side: BorderSide(color: Colors.deepOrange)),
-                        child: Text(
-                          nombreUsuario,
-                          style: TextStyle(fontSize: 15.0, color: Colors.black),
-                          // TODO: Llevar al perfil del autor... O no
+                      Positioned(
+                        top: MediaQuery.of(context).size.height * 0.02,
+                        left: MediaQuery.of(context).size.width * 0.05,
+                        child: IconButton(
+                          icon: Icon(Icons.arrow_back,
+                              size: 40, color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                         ),
-                        // TODO: Llevar al perfil del autor
+                      ),
+                      Positioned(
+                        top: MediaQuery.of(context).size.height * 0.02,
+                        right: MediaQuery.of(context).size.width * 0.10,
+                        child: IconButton(
+                          icon: Icon(favIcon, size: 40, color: favColor),
+                          onPressed: () {
+                            if (favIcon == Icons.favorite_border) {
+                              favIcon = Icons.favorite;
+                              favColor = Colors.deepOrangeAccent;
+                              apiFavorito.setFavorito(idUsuarioLogin, idReceta);
+                            } else {
+                              favIcon = Icons.favorite_border;
+                              favColor = Colors.white;
+                              apiFavorito.deleteFavorito(
+                                  idUsuarioLogin, idReceta);
+                            }
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        top: MediaQuery.of(context).size.height * 0.30,
+                        left: MediaQuery.of(context).size.width * 0.03,
+                        child: FlatButton(
+                          child: StarRating(
+                            rating: puntuacion,
+                          ),
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return MyDialog();
+                                });
+                          }, // TODO: Hacer algo para cambiar el voto. También debería salir la puntuación media con número
+                        ),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Container(
-                    color: Colors.white,
-                    height: 40.0,
-                    padding: EdgeInsets.symmetric(horizontal: 10.0),
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: ingredientes.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                            margin: EdgeInsets.symmetric(
-                                vertical: 5.0, horizontal: 10.0),
-                            height: 20.0,
-                            padding: EdgeInsets.all(2.0),
-                            child: Container(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color:
-                                              Theme.of(context).dividerColor)),
-                                ),
-                                child: Text(
-                                  ingredientes[index]['ingrediente'],
-                                  style: TextStyle(fontStyle: FontStyle.italic),
-                                ),
-                              ),
-                            ));
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Container(
-                    height: 30,
-                    child: Row(
+                  Expanded(
+                    child: ListView(
+                      padding: EdgeInsets.all(20.0),
                       children: <Widget>[
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(Icons.memory),
-                              SizedBox(
-                                width: 5.0,
+                        Text(
+                          titulo.toUpperCase(),
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            FlatButton(
+                              shape: CircleBorder(
+                                  side: BorderSide(color: Colors.deepOrange)),
+                              child: CircleAvatar(
+                                radius: 20.0,
+                                backgroundImage: NetworkImage(avatar),
                               ),
-                              Text(dificultad)
+                              onPressed:
+                                  () {}, // TODO: Llevar al perfil del autor... O no
+                            ),
+                            FlatButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  side: BorderSide(color: Colors.deepOrange)),
+                              child: Text(
+                                nombreUsuario,
+                                style: TextStyle(
+                                    fontSize: 15.0, color: Colors.black),
+                                // TODO: Llevar al perfil del autor... O no
+                              ),
+                              // TODO: Llevar al perfil del autor
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Container(
+                          color: Colors.white,
+                          height: 40.0,
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: ingredientes.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: 5.0, horizontal: 10.0),
+                                  height: 20.0,
+                                  padding: EdgeInsets.all(2.0),
+                                  child: Container(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: Theme.of(context)
+                                                    .dividerColor)),
+                                      ),
+                                      child: Text(
+                                        ingredientes[index]['ingrediente'],
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic),
+                                      ),
+                                    ),
+                                  ));
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Container(
+                          height: 30,
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(Icons.memory),
+                                    SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    Text(dificultad)
+                                  ],
+                                ),
+                              ),
+                              VerticalDivider(),
+                              Expanded(
+                                child: Text(
+                                  tipoReceta,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              VerticalDivider(),
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(Icons.timer),
+                                    SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    Text("$duracion min")
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                        VerticalDivider(),
-                        Expanded(
-                          child: Text(
-                            tipoReceta,
-                            textAlign: TextAlign.center,
-                          ),
+                        SizedBox(
+                          height: 20.0,
                         ),
-                        VerticalDivider(),
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(Icons.timer),
-                              SizedBox(
-                                width: 5.0,
-                              ),
-                              Text("$duracion min")
-                            ],
-                          ),
+                        _buildStep(
+                            buildImage:
+                                "https://images2.imgbox.com/a6/75/zkZ5dCsY_o.png",
+                            title: "CÓMO PREPARAR",
+                            content: instrucciones),
+                        SizedBox(
+                          height: 25.0,
                         ),
+                        Divider(),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Text("Hola")
+                        // TODO: Aqui los comentarios y botón para comentar. Dialog para añadir comentario.
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  _buildStep(
-                      buildImage:
-                          "https://images2.imgbox.com/a6/75/zkZ5dCsY_o.png",
-                      title: "CÓMO PREPARAR",
-                      content: instrucciones),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 
   Widget _buildStep({String buildImage, String title, String content}) {

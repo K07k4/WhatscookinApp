@@ -9,8 +9,7 @@ class Registro extends StatefulWidget {
 class RegistroPageState extends State<Registro> {
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.deepOrangeAccent);
-    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(

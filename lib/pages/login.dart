@@ -9,8 +9,7 @@ class Login extends StatefulWidget {
 class LoginPageState extends State<Login> {
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.deepOrangeAccent);
-    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
