@@ -60,6 +60,7 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable toast_bg
 id action_container
 id action_divider
 id action_image
@@ -111,6 +112,7 @@ layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer
 layout notification_template_part_time
+layout toast_custom
 mipmap ic_launcher
 mipmap ic_launcher_foreground
 mipmap ic_launcher_round

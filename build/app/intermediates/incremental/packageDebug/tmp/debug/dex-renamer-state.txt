@@ -1,4 +1,4 @@
-#Mon Apr 27 22:13:33 CEST 2020
+#Tue Apr 28 22:59:29 CEST 2020
 base.0=D\:\\Kotka\\Desktop\\Apps\\whatscookin\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

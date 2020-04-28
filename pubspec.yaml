@@ -33,6 +33,7 @@ dev_dependencies:
     sdk: flutter
   chopper_generator: ^2.3.4
   flutter_launcher_icons: "^0.7.3"
+  fluttertoast: ^4.0.0
 
 
   build_runner:

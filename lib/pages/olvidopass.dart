@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:whatscookin/api/services/usuario.dart' as apiUsuario;
+import 'package:fluttertoast/fluttertoast.dart';
 
 class OlvidoPass extends StatefulWidget {
   @override
   OlvidoPassPageState createState() => OlvidoPassPageState();
 }
+
+final emailController = TextEditingController();
 
 class OlvidoPassPageState extends State<OlvidoPass> {
   @override
@@ -86,6 +90,7 @@ class OlvidoPassPageState extends State<OlvidoPass> {
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
+                controller: emailController,
                 decoration: InputDecoration(
                     hintText: "Email",
                     prefixIcon: Material(
@@ -119,7 +124,30 @@ class OlvidoPassPageState extends State<OlvidoPass> {
                         fontWeight: FontWeight.w700,
                         fontSize: 18),
                   ),
-                  onPressed: () {}, // TODO: Enviar email con la contraseña, si existe el email
+                  onPressed: () async {
+                    final email = emailController.text;
+                    emailController.clear();
+                    Fluttertoast.showToast(
+                        msg: "Enviando el correo...",
+                        toastLength: Toast.LENGTH_LONG,
+                        backgroundColor: Colors.deepOrangeAccent,
+                        textColor: Colors.white);
+                    if (await apiUsuario.recuperarPass(email) ==
+                        true) {
+                      Fluttertoast.showToast(
+                          msg: "Contraseña enviada correctamente",
+                          toastLength: Toast.LENGTH_LONG,
+                          backgroundColor: Colors.deepOrangeAccent,
+                          textColor: Colors.white);
+                    } else {
+                      Fluttertoast.showToast(
+                          msg:
+                              "No se ha podido enviar el correo. Compruebe que es correcto y no se ha recuperado recientemente",
+                          toastLength: Toast.LENGTH_LONG,
+                          backgroundColor: Colors.deepOrangeAccent,
+                          textColor: Colors.white);
+                    }
+                  }, // TODO: Enviar email con la contraseña, si existe el email
                 ),
               )),
           SizedBox(

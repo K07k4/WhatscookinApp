@@ -6,6 +6,9 @@ class Login extends StatefulWidget {
   LoginPageState createState() => LoginPageState();
 }
 
+final usuarioController = TextEditingController();
+final passController = TextEditingController();
+
 class LoginPageState extends State<Login> {
   @override
   Widget build(BuildContext context) {
@@ -73,6 +76,7 @@ class LoginPageState extends State<Login> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
+                controller: usuarioController,
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
@@ -100,6 +104,7 @@ class LoginPageState extends State<Login> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
+                controller: passController,
                 obscureText: true,
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
@@ -136,19 +141,28 @@ class LoginPageState extends State<Login> {
                         fontWeight: FontWeight.w700,
                         fontSize: 18),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    // TODO: Hacer login
+                    print(usuarioController.text);
+                    print(passController.text);
+                  },
                 ),
               )),
           SizedBox(
             height: 20,
           ),
           Center(
-            child: Text(
-              "¿OLVIDASTE LA CONTRASEÑA?",
-              style: TextStyle(
-                  color: Colors.deepOrange,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700),
+            child: FlatButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "/olvidopass");
+              },
+              child: Text(
+                "¿OLVIDASTE LA CONTRASEÑA?",
+                style: TextStyle(
+                    color: Colors.deepOrange,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700),
+              ),
             ),
           ),
           SizedBox(

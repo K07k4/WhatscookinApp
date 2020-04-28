@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:whatscookin/api/services/usuario.dart' as apiUsuario;
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Registro extends StatefulWidget {
   @override
   RegistroPageState createState() => RegistroPageState();
 }
+
+final usuarioController = TextEditingController();
+final emailController = TextEditingController();
+final passController = TextEditingController();
+final passRepeatedController = TextEditingController();
 
 class RegistroPageState extends State<Registro> {
   @override
@@ -83,6 +90,7 @@ class RegistroPageState extends State<Registro> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
+                controller: usuarioController,
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
@@ -110,6 +118,7 @@ class RegistroPageState extends State<Registro> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
+                controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
@@ -138,6 +147,7 @@ class RegistroPageState extends State<Registro> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
+                controller: passController,
                 obscureText: true,
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
@@ -166,6 +176,7 @@ class RegistroPageState extends State<Registro> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
+                controller: passRepeatedController,
                 obscureText: true,
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
@@ -202,13 +213,62 @@ class RegistroPageState extends State<Registro> {
                         fontWeight: FontWeight.w700,
                         fontSize: 18),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    var check = true;
+                    final nombre = usuarioController.text;
+                    final pass = passController.text;
+                    final email = emailController.text;
+                    final passRepeated = passRepeatedController.text;
+
+                    if (pass != passRepeated) {
+                      Fluttertoast.showToast(
+                          msg: "La contraseña no coincide",
+                          toastLength: Toast.LENGTH_SHORT,
+                          backgroundColor: Colors.deepOrangeAccent,
+                          textColor: Colors.white);
+                      check = false;
+                    }
+
+                    if (check && nombre.isEmpty ||
+                        pass.isEmpty ||
+                        email.isEmpty ||
+                        passRepeated.isEmpty) {
+                      Fluttertoast.showToast(
+                          msg: "No puede haber campos vacíos",
+                          toastLength: Toast.LENGTH_SHORT,
+                          backgroundColor: Colors.deepOrangeAccent,
+                          textColor: Colors.white);
+                      check = false;
+                    }
+
+                    if (check) {
+                      if (await apiUsuario.crearUsuario(nombre, pass, email) ==
+                          true) {
+                        Fluttertoast.showToast(
+                            msg: "Usuario creado correctamente",
+                            toastLength: Toast.LENGTH_LONG,
+                            backgroundColor: Colors.deepOrangeAccent,
+                            textColor: Colors.white);
+                        Navigator.popAndPushNamed(context, "/login"); // TODO: Redirigir ya logeado
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "El nombre o el email ya está/n registrado/s",
+                            // TODO: Hay que controlar más especificamente qué error es
+                            toastLength: Toast.LENGTH_LONG,
+                            backgroundColor: Colors.deepOrangeAccent,
+                            textColor: Colors.white);
+                      }
+                      usuarioController.clear();
+                      emailController.clear();
+                      passController.clear();
+                      passRepeatedController.clear();
+                    }
+                  },
                 ),
               )),
           SizedBox(
             height: 25,
           ),
-          // TODO: Como lo pongo arriba a la izquierda?
         ],
       ),
     );
