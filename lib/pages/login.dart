@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:whatscookin/pages/olvidopass.dart';
+import 'package:whatscookin/pages/registro.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -13,188 +15,190 @@ class LoginPageState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: ListView(
-        children: <Widget>[
-          Stack(
-            children: <Widget>[
-              ClipPath(
-                clipper: WaveClipper2(),
-                child: Container(
-                  child: Column(),
-                  width: double.infinity,
-                  height: 300,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Color(0x22873600), Color(0x226E2C00)])),
-                ),
-              ),
-              ClipPath(
-                clipper: WaveClipper3(),
-                child: Container(
-                  child: Column(),
-                  width: double.infinity,
-                  height: 300,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Color(0x44BA4A00), Color(0x44CA6F1E)])),
-                ),
-              ),
-              ClipPath(
-                clipper: WaveClipper1(),
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 70,
-                      ),
-                      Text(
-                        "Whatscookin",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 70,
-                            fontFamily: 'Alegra'),
-                      ),
-                    ],
+    return Container(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: ListView(
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                ClipPath(
+                  clipper: WaveClipper2(),
+                  child: Container(
+                    child: Column(),
+                    width: double.infinity,
+                    height: 300,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [Color(0x22873600), Color(0x226E2C00)])),
                   ),
-                  width: double.infinity,
-                  height: 300,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Colors.orange[600], Colors.orange[900]])),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32),
-            child: Material(
-              elevation: 2.0,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              child: TextField(
-                controller: usuarioController,
-                onChanged: (String value) {},
-                cursorColor: Colors.deepOrange,
-                decoration: InputDecoration(
-                    hintText: "Usuario/Email",
-                    prefixIcon: Material(
-                      elevation: 0,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.deepOrange,
-                      ),
+                ClipPath(
+                  clipper: WaveClipper3(),
+                  child: Container(
+                    child: Column(),
+                    width: double.infinity,
+                    height: 300,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [Color(0x44BA4A00), Color(0x44CA6F1E)])),
+                  ),
+                ),
+                ClipPath(
+                  clipper: WaveClipper1(),
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 70,
+                        ),
+                        Text(
+                          "Whatscookin",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 70,
+                              fontFamily: 'Alegra'),
+                        ),
+                      ],
                     ),
-                    border: InputBorder.none,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-              ),
+                    width: double.infinity,
+                    height: 300,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [Colors.orange[600], Colors.orange[900]])),
+                  ),
+                ),
+              ],
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32),
-            child: Material(
-              elevation: 2.0,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              child: TextField(
-                controller: passController,
-                obscureText: true,
-                onChanged: (String value) {},
-                cursorColor: Colors.deepOrange,
-                decoration: InputDecoration(
-                    hintText: "Contraseña",
-                    prefixIcon: Material(
-                      elevation: 0,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      child: Icon(
-                        Icons.lock,
-                        color: Colors.deepOrange,
-                      ),
-                    ),
-                    border: InputBorder.none,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-              ),
+            SizedBox(
+              height: 30,
             ),
-          ),
-          SizedBox(
-            height: 25,
-          ),
-          Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 32),
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    color: Colors.orange[800]),
-                child: FlatButton(
-                  child: Text(
-                    "Iniciar sesión",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18),
-                  ),
-                  onPressed: () {
-                    // TODO: Hacer login
-                    print(usuarioController.text);
-                    print(passController.text);
-                  },
+              child: Material(
+                elevation: 2.0,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: TextField(
+                  controller: usuarioController,
+                  onChanged: (String value) {},
+                  cursorColor: Colors.deepOrange,
+                  decoration: InputDecoration(
+                      hintText: "Usuario/Email",
+                      prefixIcon: Material(
+                        elevation: 0,
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.deepOrange,
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
                 ),
-              )),
-          SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: FlatButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/olvidopass");
-              },
-              child: Text(
-                "¿OLVIDASTE LA CONTRASEÑA?",
-                style: TextStyle(
-                    color: Colors.deepOrange,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700),
               ),
             ),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "¿No tienes cuenta? ",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, "/registro");
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text("Regístrate ",
-                      style: TextStyle(
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32),
+              child: Material(
+                elevation: 2.0,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: TextField(
+                  controller: passController,
+                  obscureText: true,
+                  onChanged: (String value) {},
+                  cursorColor: Colors.deepOrange,
+                  decoration: InputDecoration(
+                      hintText: "Contraseña",
+                      prefixIcon: Material(
+                        elevation: 0,
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        child: Icon(
+                          Icons.lock,
                           color: Colors.deepOrange,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12,
-                          decoration: TextDecoration.underline)),
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
                 ),
               ),
-            ],
-          )
-        ],
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 32),
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                      color: Colors.orange[800]),
+                  child: FlatButton(
+                    child: Text(
+                      "Iniciar sesión",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18),
+                    ),
+                    onPressed: () {
+                      // TODO: Hacer login
+                      print(usuarioController.text);
+                      print(passController.text);
+                    },
+                  ),
+                )),
+            SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: FlatButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => OlvidoPass()),);
+                },
+                child: Text(
+                  "¿OLVIDASTE LA CONTRASEÑA?",
+                  style: TextStyle(
+                      color: Colors.deepOrange,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "¿No tienes cuenta? ",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.normal),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Registro()),);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text("Regístrate ",
+                        style: TextStyle(
+                            color: Colors.deepOrange,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            decoration: TextDecoration.underline)),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

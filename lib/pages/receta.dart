@@ -9,7 +9,7 @@ import 'package:whatscookin/api/widgets/StarRating.dart';
 
 int idUsuarioLogin = 1; // TODO: Obtener id del logeado con shared properties
 
-int idReceta = 4;
+int idReceta = 1;
 int idUsuario; // Id del usuario autor de la receta
 int idDificultad; // Id de la dificultad de la receta
 int idTipoReceta; // Id del tipo de receta
@@ -31,11 +31,14 @@ bool favoritoLoaded =
 bool ingredientesLoaded =
     false; // Comprueba que haya hecho la llamada de los ingredientes
 
+// Iconos de los estados para favoritos
 var favIcon = Icons.favorite_border;
 var favColor = Colors.white;
 
+// Mapa de los ingredientes
 List<Map> ingredientes = [];
 
+// Puntuacion media
 double puntuacionDialog = 0.0;
 
 class Receta extends StatefulWidget {
@@ -59,7 +62,7 @@ class _RecetaState extends State<Receta> {
   void initState() {
     super.initState();
     getData();
-    setState(() {});
+    // setState(() {});
   }
 
   getData() async {
@@ -70,7 +73,7 @@ class _RecetaState extends State<Receta> {
       infoFavorito();
       print("Llamadas realizadas");
     }
-    setState(() {});
+//    setState(() {});
   }
 
   infoReceta() async {
@@ -164,13 +167,12 @@ class _RecetaState extends State<Receta> {
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(Colors.white);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
-/*
+
     idReceta = ModalRoute.of(context)
         .settings
         .arguments; // TODO: No se buildea de nuevo
     // TODO: Esta es la unica forma, pero realiza llamadas ilimitadas
 
- */
     return FutureBuilder(
         future: getData(),
         builder: (context, snapshot) {
@@ -206,8 +208,9 @@ class _RecetaState extends State<Receta> {
                         child: IconButton(
                           icon: Icon(Icons.arrow_back,
                               size: 40, color: Colors.white),
-                          onPressed: () {
+                          onPressed: () async {
                             Navigator.pop(context);
+
                           },
                         ),
                       ),

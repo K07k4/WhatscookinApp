@@ -8,6 +8,8 @@ import 'package:whatscookin/api/services/usuario.dart' as apiUsuario;
 import 'package:whatscookin/api/services/receta.dart' as apiReceta;
 import 'package:whatscookin/api/services/favorito.dart' as apiFavorito;
 
+import 'receta.dart';
+
 int idUsuario = 2; //TODO: Cómo almacenar y obtener sharedproperties
 bool loaded = false;
 

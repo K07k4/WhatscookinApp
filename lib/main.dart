@@ -8,7 +8,7 @@ import 'package:whatscookin/pages/registro.dart';
 
 import 'pages/home.dart';
 
-void main() => runApp(MaterialApp(initialRoute: '/login', routes: {
+void main() => runApp(MaterialApp(initialRoute: '/perfil', routes: {
       '/home': (context) => Home(),
       '/receta': (context) => Receta(),
       '/login': (context) => Login(),
