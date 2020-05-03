@@ -147,13 +147,12 @@ class OlvidoPassPageState extends State<OlvidoPass> {
                           backgroundColor: Colors.deepOrangeAccent,
                           textColor: Colors.white);
                     }
-                  }, // TODO: Enviar email con la contraseña, si existe el email
+                  },
                 ),
               )),
           SizedBox(
             height: 25,
           ),
-          // TODO: Como lo pongo arriba a la izquierda?
         ],
       ),
     );
