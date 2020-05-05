@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:whatscookin/api/api.dart' as api;
 import 'package:whatscookin/api/services/usuario.dart' as apiUsuario;
@@ -22,14 +23,8 @@ int duracion = 0; // Duracion de la receta
 var puntuacion = 0.0; // Puntuacion media de la receta
 String instrucciones = ""; // Instrucciones de la receta
 bool esFavorita = false; // Favorita o no por el usuario visitando
-bool recetaLoaded =
-    false; // Comprueba que haya hecho las llamadas relacionadas con la receta
-bool usuarioLoaded =
-    false; // Comprueba que haya hecho las llamadas relacionadas con el usuario
-bool favoritoLoaded =
-    false; // Comprueba que haya hecho las llamadas relacionadas con el favorito
-bool ingredientesLoaded =
-    false; // Comprueba que haya hecho la llamada de los ingredientes
+
+int counter = idReceta * 0;
 
 // Iconos de los estados para favoritos
 var favIcon = Icons.favorite_border;
@@ -46,7 +41,13 @@ class Receta extends StatefulWidget {
   _RecetaState createState() => _RecetaState();
 }
 
-class _RecetaState extends State<Receta> {
+class _RecetaState extends State<Receta> with WidgetsBindingObserver {
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   var usuario;
   var receta;
   var favoritos;
@@ -62,105 +63,86 @@ class _RecetaState extends State<Receta> {
   void initState() {
     super.initState();
     getData();
-    // setState(() {});
+    getData();
+    getData();
   }
 
   getData() async {
-    if (!recetaLoaded || !usuarioLoaded) {
-      infoReceta();
-      infoUsuario();
-      infoIngredientes();
-      infoFavorito();
-      print("Llamadas realizadas");
-    }
-//    setState(() {});
+    infoReceta();
+    infoUsuario();
+    infoIngredientes();
+    infoFavorito();
+    print("Llamadas realizadas");
   }
 
   infoReceta() async {
-    if (recetaLoaded == false) {
-      receta = await Future.value(apiReceta.getReceta(idReceta));
-      idUsuario = receta.idUsuario;
-      idDificultad = receta.idDificultad;
-      idTipoReceta = receta.idTipoReceta;
-      puntuacion = receta.puntuacion / 2;
+    idReceta = ModalRoute.of(context).settings.arguments;
+    receta = await Future.value(apiReceta.getReceta(idReceta));
+    idUsuario = receta.idUsuario;
+    idDificultad = receta.idDificultad;
+    idTipoReceta = receta.idTipoReceta;
+    puntuacion = receta.puntuacion / 2;
 
-      titulo = receta.titulo;
-      instrucciones = receta.instrucciones;
-      duracion = receta.duracion;
+    titulo = receta.titulo;
+    instrucciones = receta.instrucciones;
+    duracion = receta.duracion;
 
-      var tempImage = api.baseUrl +
-          "/imagen/get?id=" +
-          idReceta.toString() +
-          "&tipo=receta";
-      if (tempImage != null) {
-        image = tempImage;
-      }
-
-      var itemDificultad =
-          await Future.value(apiReceta.getDificultad(idDificultad));
-      dificultad = itemDificultad.dificultad;
-
-      var itemTipoReceta =
-          await Future.value(apiReceta.getTipoReceta(idTipoReceta));
-      tipoReceta = itemTipoReceta.nombre;
+    var tempImage =
+        api.baseUrl + "/imagen/get?id=" + idReceta.toString() + "&tipo=receta";
+    if (tempImage != null) {
+      image = tempImage;
     }
-    recetaLoaded = true;
-    setState(() {});
+
+    var itemDificultad =
+        await Future.value(apiReceta.getDificultad(idDificultad));
+    dificultad = itemDificultad.dificultad;
+
+    var itemTipoReceta =
+        await Future.value(apiReceta.getTipoReceta(idTipoReceta));
+    tipoReceta = itemTipoReceta.nombre;
   }
 
   infoUsuario() async {
-    if (usuarioLoaded == false) {
-      usuario = await Future.value(apiUsuario.getUsuario(idUsuario));
+    usuario = await Future.value(apiUsuario.getUsuario(idUsuario));
 
-      var tempAvatar = api.baseUrl +
-          "/imagen/get?id=" +
-          idUsuario.toString() +
-          "&tipo=usuario";
-      if (tempAvatar != null) {
-        avatar = tempAvatar;
-      }
-      nombreUsuario = usuario.nombre;
+    var tempAvatar = api.baseUrl +
+        "/imagen/get?id=" +
+        idUsuario.toString() +
+        "&tipo=usuario";
+    if (tempAvatar != null) {
+      avatar = tempAvatar;
     }
-    usuarioLoaded = true;
-    setState(() {});
+    nombreUsuario = usuario.nombre;
   }
 
   infoFavorito() async {
-    if (favoritoLoaded == false) {
-      favoritos = await Future.value(
-          apiFavorito.getRecetasFavoritasDeUsuario(idUsuarioLogin));
-      List<dynamic> lista = favoritos;
-      for (int i = 0; i < lista.length; i++) {
-        if (lista[i].idReceta == idReceta) {
-          esFavorita = true;
-          favIcon = Icons.favorite;
-          favColor = Colors.deepOrangeAccent;
-          break;
-        }
+    favoritos = await Future.value(
+        apiFavorito.getRecetasFavoritasDeUsuario(idUsuarioLogin));
+    List<dynamic> lista = favoritos;
+    for (int i = 0; i < lista.length; i++) {
+      if (lista[i].idReceta == idReceta) {
+        esFavorita = true;
+        favIcon = Icons.favorite;
+        favColor = Colors.deepOrangeAccent;
+        break;
       }
     }
-    favoritoLoaded = true;
-    setState(() {});
   }
 
   infoIngredientes() async {
-    if (ingredientesLoaded == false) {
-      listIngredientes =
-          await Future.value(apiIngrediente.getIngredientesReceta(idReceta));
+    listIngredientes =
+        await Future.value(apiIngrediente.getIngredientesReceta(idReceta));
 
-      if (listIngredientes.length > 0) {
-        ingredientes.clear();
+    if (listIngredientes.length > 0) {
+      ingredientes.clear();
 
-        for (int i = 0; i < listIngredientes.length; i++) {
-          var map = {};
-          map['ingrediente'] = listIngredientes[i].ingrediente;
+      for (int i = 0; i < listIngredientes.length; i++) {
+        var map = {};
+        map['ingrediente'] = listIngredientes[i].ingrediente;
 
-          ingredientes.add(map);
-        }
+        ingredientes.add(map);
       }
     }
-    ingredientesLoaded = true;
-    setState(() {});
   }
 
   @override
@@ -168,10 +150,10 @@ class _RecetaState extends State<Receta> {
     FlutterStatusbarcolor.setStatusBarColor(Colors.white);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
 
-    idReceta = ModalRoute.of(context)
-        .settings
-        .arguments; // TODO: No se buildea de nuevo
+    // TODO: No se buildea de nuevo
+
     // TODO: Esta es la unica forma, pero realiza llamadas ilimitadas
+    Future.delayed(const Duration(milliseconds: 900), () => setState(() {}));
 
     return FutureBuilder(
         future: getData(),
@@ -210,7 +192,6 @@ class _RecetaState extends State<Receta> {
                               size: 40, color: Colors.white),
                           onPressed: () async {
                             Navigator.pop(context);
-
                           },
                         ),
                       ),

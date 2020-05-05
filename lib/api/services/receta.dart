@@ -29,7 +29,7 @@ Future<Receta> getReceta(int idReceta) async {
 }
 
 Future<List> getRecetasDeUsuario(int idUsuario) async {
-  final response = await http.get(path + "/getRecetasBusqueda?idTipoReceta=&idUsuario=" + idUsuario.toString() + "&idDificultad=&duracion=&puntuacionMinima=&idIngrediente=" + idUsuario.toString());
+  final response = await http.get(path + "/getRecetasBusqueda?idTipoReceta=&idUsuario=" + idUsuario.toString() + "&idDificultad=&duracion=&puntuacionMinima=&idIngrediente=");
   if(response.statusCode == 200) {
 
     List recetasBruto = json.decode(response.body);

@@ -11,6 +11,8 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
+//TODO: Funcionalidad
+
 class _HomeState extends State<Home> {
   static final String path = "lib/src/pages/food/recipe_list.dart";
   final Color color1 = Color(0xffB5192F);
