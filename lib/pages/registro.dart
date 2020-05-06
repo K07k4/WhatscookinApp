@@ -13,6 +13,33 @@ final emailController = TextEditingController();
 final passController = TextEditingController();
 final passRepeatedController = TextEditingController();
 
+limpiar() {
+  usuarioController.clear();
+  emailController.clear();
+  passController.clear();
+  passRepeatedController.clear();
+}
+
+bool isValid(String str, RegExp regExp) {
+  return regExp.hasMatch(str);
+}
+
+RegExp emailRegExp = new RegExp(
+    "^[a-zA-Z0-9_+&*-]+(?:\\." +
+        "[a-zA-Z0-9_+&*-]+)*@" +
+        "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+        "A-Z]{2,7}\$",
+    multiLine: false,
+    caseSensitive: false);
+
+RegExp nombreRegExp = new RegExp(
+    "^[a-zA-ZÀ-ÿ\\u00f1\\u00d1]+(\\s*[a-zA-ZÀ-ÿ\\u00f1\\u00d1]*)*[a-zA-ZÀ-ÿ\\u00f1\\u00d1]+\$",
+    multiLine: false,
+    caseSensitive: false);
+
+RegExp passRegExp =
+    new RegExp("^((?!'|\\|=| |%).)*\$", multiLine: false, caseSensitive: false);
+
 class RegistroPageState extends State<Registro> {
   @override
   Widget build(BuildContext context) {
@@ -240,28 +267,73 @@ class RegistroPageState extends State<Registro> {
                           textColor: Colors.white);
                       check = false;
                     }
+                    if ((!isValid(nombre, nombreRegExp) ||
+                            nombre.length > 20) &&
+                        check) {
+                      Fluttertoast.showToast(
+                          msg:
+                              "El nombre no tiene un formato válido\nLa longitud debe ser entre 2-20 caracteres",
+                          toastLength: Toast.LENGTH_LONG,
+                          backgroundColor: Colors.deepOrangeAccent,
+                          textColor: Colors.white);
+                      check = false;
+                    }
+
+                    if (!isValid(email, emailRegExp) && check) {
+                      Fluttertoast.showToast(
+                          msg: "El email no tiene un formato válido",
+                          toastLength: Toast.LENGTH_LONG,
+                          backgroundColor: Colors.deepOrangeAccent,
+                          textColor: Colors.white);
+                      check = false;
+                    }
+
+                    if (!isValid(pass, passRegExp) && check) {
+                      Fluttertoast.showToast(
+                          msg:
+                              "Algunos símbolos usados en la contraseña no son válidos",
+                          toastLength: Toast.LENGTH_LONG,
+                          backgroundColor: Colors.deepOrangeAccent,
+                          textColor: Colors.white);
+                      check = false;
+                    }
 
                     if (check) {
-                      if (await apiUsuario.crearUsuario(nombre, pass, email) ==
-                          true) {
-                        Fluttertoast.showToast(
-                            msg: "Usuario creado correctamente",
-                            toastLength: Toast.LENGTH_LONG,
-                            backgroundColor: Colors.deepOrangeAccent,
-                            textColor: Colors.white);
-                        Navigator.popAndPushNamed(context, "/login"); // TODO: Redirigir ya logeado
-                      } else {
-                        Fluttertoast.showToast(
-                            msg: "El nombre o el email ya está/n registrado/s",
-                            // TODO: Hay que controlar más especificamente qué error es
-                            toastLength: Toast.LENGTH_LONG,
-                            backgroundColor: Colors.deepOrangeAccent,
-                            textColor: Colors.white);
+                      final registro =
+                          await apiUsuario.crearUsuario(nombre, pass, email);
+
+                      switch (registro) {
+                        case 200:
+                          Fluttertoast.showToast(
+                              msg: "Usuario creado correctamente",
+                              toastLength: Toast.LENGTH_LONG,
+                              backgroundColor: Colors.deepOrangeAccent,
+                              textColor: Colors.white);
+                          Navigator.popAndPushNamed(context, "/login");
+                          break;
+
+                        case 403:
+                          Fluttertoast.showToast(
+                              msg:
+                                  "El nombre o el email ya está/n registrado/s",
+                              toastLength: Toast.LENGTH_LONG,
+                              backgroundColor: Colors.deepOrangeAccent,
+                              textColor: Colors.white);
+                          break;
+                        case 400:
+                          Fluttertoast.showToast(
+                              msg: "Ha ocurrido un error",
+                              toastLength: Toast.LENGTH_LONG,
+                              backgroundColor: Colors.deepOrangeAccent,
+                              textColor: Colors.white);
+                          break;
+                        case 406:
+                          Fluttertoast.showToast(
+                              msg: "Algún o algunos campos son incorrectos",
+                              toastLength: Toast.LENGTH_LONG,
+                              backgroundColor: Colors.deepOrangeAccent,
+                              textColor: Colors.white);
                       }
-                      usuarioController.clear();
-                      emailController.clear();
-                      passController.clear();
-                      passRepeatedController.clear();
                     }
                   },
                 ),

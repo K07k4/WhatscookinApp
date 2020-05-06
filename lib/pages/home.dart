@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:whatscookin/api/services/usuario.dart' as usuario;
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -31,6 +32,7 @@ class _HomeState extends State<Home> {
   // TODO: Por algún motivo peta, intenta mostrar más items de los que hay
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     return Scaffold(
         body: Stack(
           children: <Widget>[

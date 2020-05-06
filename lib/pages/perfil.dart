@@ -20,7 +20,6 @@ class Perfil extends StatefulWidget {
   _PerfilState createState() => _PerfilState();
 }
 
-
 class _PerfilState extends State<Perfil> {
   Usuario usuario;
   List<dynamic> listMisRecetas = [];
@@ -28,12 +27,12 @@ class _PerfilState extends State<Perfil> {
 
   String nombre = ""; // 29 limite de caracteres en nombre
   String email = "";
-  var avatar = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png';
+  var avatar =
+      'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png';
 
   List<Map> misRecetas = [];
 
   List<Map> misFavoritas = [];
-
 
   @override
   void initState() {
@@ -52,12 +51,13 @@ class _PerfilState extends State<Perfil> {
   }
 
   infoUsuario() async {
-    if(loaded == false) {
+    if (loaded == false) {
       usuario = await Future.value(apiUsuario.getUsuario(idUsuario));
 
-      var tempAvatar =
-          api.baseUrl + "/imagen/get?id=" + idUsuario.toString() +
-              "&tipo=usuario";
+      var tempAvatar = api.baseUrl +
+          "/imagen/get?id=" +
+          idUsuario.toString() +
+          "&tipo=usuario";
       if (tempAvatar != null) {
         avatar = tempAvatar;
       }
@@ -68,8 +68,8 @@ class _PerfilState extends State<Perfil> {
 
   recetasUsuario() async {
     if (loaded == false) {
-      listFavoritos =
-      await Future.value(apiFavorito.getRecetasFavoritasDeUsuario(idUsuario));
+      listFavoritos = await Future.value(
+          apiFavorito.getRecetasFavoritasDeUsuario(idUsuario));
 
       if (listFavoritos.length > 0) {
         misFavoritas.clear();
@@ -90,9 +90,9 @@ class _PerfilState extends State<Perfil> {
   }
 
   recetasFavoritas() async {
-    if(loaded == false) {
+    if (loaded == false) {
       listMisRecetas =
-      await Future.value(apiReceta.getRecetasDeUsuario(idUsuario));
+          await Future.value(apiReceta.getRecetasDeUsuario(idUsuario));
 
       if (listMisRecetas.length > 0) {
         misRecetas.clear();
@@ -109,16 +109,13 @@ class _PerfilState extends State<Perfil> {
           misRecetas.add(map);
         }
       }
-      setState(() {
-
-      });
+      setState(() {});
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     return FutureBuilder(
       future: getData(),
       builder: (context, snapshot) {
@@ -138,13 +135,38 @@ class _PerfilState extends State<Perfil> {
                 itemCount: 5,
                 itemBuilder: _mainListBuilder,
               ),
+              Positioned(
+                top: MediaQuery.of(context).size.height * 0.04,
+                left: MediaQuery.of(context).size.width * 0.04,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back, size: 40, color: Colors.white),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              Positioned(
+                top: MediaQuery.of(context).size.height * 0.04,
+                right: MediaQuery.of(context).size.width * 0.10,
+                child: IconButton(
+                  icon: Icon(Icons.exit_to_app, size: 40, color: Colors.white),
+                  onPressed: () {
+                    /*
+                    showDialog(
+                        context: context,
+                        builder: (_) {
+                          return; // TODO: Un dialog para confirmar cerrar sesión
+                        });
+                     */
+                  },
+                ),
+              ),
             ],
           ),
         );
       },
     );
   }
-
 
   Widget _mainListBuilder(BuildContext context, int index) {
     if (index == 0) return _buildHeader(context);
@@ -176,20 +198,25 @@ class _PerfilState extends State<Perfil> {
                           borderRadius: BorderRadius.circular(5.0),
                           child: FlatButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, "/receta", arguments: misFavoritas[index]["id"]);
+                              Navigator.pushNamed(context, "/receta",
+                                  arguments: misFavoritas[index]["id"]);
                             },
                             child: Image.network(
                               misFavoritas[index]['image'],
                               fit: BoxFit.cover,
-                              loadingBuilder: (BuildContext context, Widget child,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
                                   ImageChunkEvent loadingProgress) {
                                 if (loadingProgress == null) return child;
                                 return Center(
                                   child: CircularProgressIndicator(
-                                    valueColor: new AlwaysStoppedAnimation<Color>(Colors.deepOrange),
+                                    valueColor:
+                                        new AlwaysStoppedAnimation<Color>(
+                                            Colors.deepOrange),
                                     value: loadingProgress.expectedTotalBytes !=
                                             null
-                                        ? loadingProgress.cumulativeBytesLoaded /
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
                                             loadingProgress.expectedTotalBytes
                                         : null,
                                   ),
@@ -263,7 +290,8 @@ class _PerfilState extends State<Perfil> {
                               if (loadingProgress == null) return child;
                               return Center(
                                 child: CircularProgressIndicator(
-                                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.deepOrange),
+                                  valueColor: new AlwaysStoppedAnimation<Color>(
+                                      Colors.deepOrange),
                                   value: loadingProgress.expectedTotalBytes !=
                                           null
                                       ? loadingProgress.cumulativeBytesLoaded /

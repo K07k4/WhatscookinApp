@@ -8,6 +8,18 @@ class OlvidoPass extends StatefulWidget {
   OlvidoPassPageState createState() => OlvidoPassPageState();
 }
 
+bool isValid(String str, RegExp regExp) {
+  return regExp.hasMatch(str);
+}
+
+RegExp emailRegExp = new RegExp(
+    "^[a-zA-Z0-9_+&*-]+(?:\\." +
+        "[a-zA-Z0-9_+&*-]+)*@" +
+        "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+        "A-Z]{2,7}\$",
+    multiLine: false,
+    caseSensitive: false);
+
 final emailController = TextEditingController();
 
 class OlvidoPassPageState extends State<OlvidoPass> {
@@ -125,27 +137,53 @@ class OlvidoPassPageState extends State<OlvidoPass> {
                         fontSize: 18),
                   ),
                   onPressed: () async {
+                    var check = true;
                     final email = emailController.text;
-                    emailController.clear();
-                    Fluttertoast.showToast(
-                        msg: "Enviando el correo...",
-                        toastLength: Toast.LENGTH_LONG,
-                        backgroundColor: Colors.deepOrangeAccent,
-                        textColor: Colors.white);
-                    if (await apiUsuario.recuperarPass(email) ==
-                        true) {
+                    final response = await apiUsuario.recuperarPass(email);
+
+                    if (email.isEmpty) {
                       Fluttertoast.showToast(
-                          msg: "Contraseña enviada correctamente",
-                          toastLength: Toast.LENGTH_LONG,
+                          msg: "El campo email está vacío",
+                          toastLength: Toast.LENGTH_SHORT,
                           backgroundColor: Colors.deepOrangeAccent,
                           textColor: Colors.white);
-                    } else {
+                      check = false;
+                    }
+
+                    if(!isValid(email, emailRegExp) && check) {
                       Fluttertoast.showToast(
-                          msg:
-                              "No se ha podido enviar el correo. Compruebe que es correcto y no se ha recuperado recientemente",
-                          toastLength: Toast.LENGTH_LONG,
+                          msg: "El email no es correcto",
+                          toastLength: Toast.LENGTH_SHORT,
                           backgroundColor: Colors.deepOrangeAccent,
                           textColor: Colors.white);
+                      check = false;
+                    }
+
+                    if (check) {
+                      switch (response) {
+                        case 400:
+                          Fluttertoast.showToast(
+                              msg: "Contraseña enviada correctamente",
+                              toastLength: Toast.LENGTH_SHORT,
+                              backgroundColor: Colors.deepOrangeAccent,
+                              textColor: Colors.white);
+                          emailController.clear();
+                          break;
+                        case 404:
+                          Fluttertoast.showToast(
+                              msg: "El correo no está registrado",
+                              toastLength: Toast.LENGTH_SHORT,
+                              backgroundColor: Colors.deepOrangeAccent,
+                              textColor: Colors.white);
+                          break;
+                        default:
+                          Fluttertoast.showToast(
+                              msg:
+                                  "No se ha podido enviar el correo. Compruebe que es correcto y no se ha recuperado recientemente",
+                              toastLength: Toast.LENGTH_LONG,
+                              backgroundColor: Colors.deepOrangeAccent,
+                              textColor: Colors.white);
+                      }
                     }
                   },
                 ),

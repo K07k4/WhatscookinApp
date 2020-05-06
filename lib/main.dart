@@ -5,10 +5,11 @@ import 'package:whatscookin/pages/olvidopass.dart';
 import 'package:whatscookin/pages/perfil.dart';
 import 'package:whatscookin/pages/receta.dart';
 import 'package:whatscookin/pages/registro.dart';
+import 'package:whatscookin/pages/startLoading.dart';
 
 import 'pages/home.dart';
 
-void main() => runApp(MaterialApp(initialRoute: '/home', routes: {
+void main() => runApp(MaterialApp(initialRoute: '/perfil', routes: {
       '/home': (context) => Home(),
       '/receta': (context) => Receta(),
       '/login': (context) => Login(),
@@ -16,5 +17,6 @@ void main() => runApp(MaterialApp(initialRoute: '/home', routes: {
       '/perfil': (context) => Perfil(),
       '/olvidopass': (context) => OlvidoPass(),
       '/intro': (context) => Intro(),
-      '/home' : (context) => Home()
+      '/home': (context) => Home(),
+      '/startLoading': (context) => StartLoading(),
     }));
