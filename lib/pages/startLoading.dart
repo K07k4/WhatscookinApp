@@ -24,7 +24,6 @@ class _LoadingState extends State<StartLoading> {
     int idUsuario = prefs.getInt('idUsuario');
 
     // Si ya está logeado, pasa a /home
-    // TODO: Durante un momento se ve la pantalla de login
     if (idUsuario != null && idUsuario > 0) {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Home()));

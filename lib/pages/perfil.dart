@@ -13,7 +13,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'receta.dart';
 
-int idUsuario; //TODO: Problema de llamadas infinitas para la API
+int idUsuario;
 bool loaded = false;
 
 //Dar funcionalidad para cambiar el correo?

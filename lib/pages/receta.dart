@@ -11,8 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login.dart';
 
-// TODO: Añadir botón de compartir
-
 int idUsuarioLogin;
 
 int idReceta = 1;

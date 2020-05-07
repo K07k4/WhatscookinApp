@@ -7,8 +7,6 @@ import 'dart:io';
 
 import 'package:whatscookin/pages/perfil.dart';
 
-// TODO: Todo lo de aqui
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -20,7 +18,7 @@ class _HomeState extends State<Home> {
   final Color color1 = Color(0xffcc5214);
   final Color color2 = Color(0xffe8570e);
   final Color color3 = Color(0xffff5600);
-  final Color color4 = Color(0xffF0631C);
+  final Color color4 = Colors.deepOrange.shade300;
   final List<String> images = [
     "https://dummyimage.com/600x400/000/fff",
     "https://dummyimage.com/600x400/bd5ebd/fff",
@@ -83,7 +81,7 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   SizedBox(height: 30.0),
                   _buildHeader(context),
-                  SizedBox(height: 25.0),
+                  SizedBox(height: 20.0),
                   Padding(
                     padding: const EdgeInsets.only(left: 16.0),
                     child: Text(
@@ -122,7 +120,7 @@ class _HomeState extends State<Home> {
                   Padding(
                     padding: const EdgeInsets.only(left: 16.0),
                     child: Text(
-                      "ALGO O ALGO",
+                      "Más cosas".toUpperCase(),
                       style: TextStyle(color: Colors.white, fontSize: 16.0),
                     ),
                   ),
@@ -146,21 +144,21 @@ class _HomeState extends State<Home> {
               right: 0,
               child: TextField(
                 controller: busquedaController,
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
-                    fillColor: Colors.black87,
+                    fillColor: Color(0xfff0f0f0),
                     suffixIcon: FlatButton(
                       onPressed: () {
                         print(busquedaController.text);
                       }, // TODO: Funcionalidad de búsqueda
                       child: Icon(
                         Icons.search,
-                        color: Colors.white70,
+                        color: Colors.black54,
                       ),
                     ),
                     filled: true,
                     hintText: "Busca una receta",
-                    hintStyle: TextStyle(color: Colors.white70)),
+                    hintStyle: TextStyle(color: Colors.black54)),
               ),
             )
           ],
@@ -193,7 +191,7 @@ class _HomeState extends State<Home> {
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
-                "French\nToast".toUpperCase(),
+                "Nombre de receta".toUpperCase(),
                 style: TextStyle(color: Colors.white, fontSize: 14.0),
               ),
             )
@@ -214,15 +212,8 @@ class _HomeState extends State<Home> {
               SizedBox(height: 10,),
               Text(
                 "Whatscookin",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontFamily: 'Alegra', fontSize: 40),
               ),
-              Text(
-                "today?".toUpperCase(),
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold),
-              )
             ],
           ),
         ),

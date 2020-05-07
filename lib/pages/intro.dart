@@ -43,6 +43,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     const pageDecoration = const PageDecoration(
       titleTextStyle: TextStyle(fontSize: 36.0,  color: Colors.white, fontFamily: 'Alegra'),
       bodyTextStyle: TextStyle(fontSize: 19.0, color: Colors.white),
