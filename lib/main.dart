@@ -9,7 +9,7 @@ import 'package:whatscookin/pages/startLoading.dart';
 
 import 'pages/home.dart';
 
-void main() => runApp(MaterialApp(initialRoute: '/perfil', routes: {
+void main() => runApp(MaterialApp(initialRoute: '/startLoading', routes: {
       '/home': (context) => Home(),
       '/receta': (context) => Receta(),
       '/login': (context) => Login(),

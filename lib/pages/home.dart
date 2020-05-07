@@ -5,20 +5,21 @@ import 'package:whatscookin/api/services/usuario.dart' as usuario;
 import 'package:flutter/material.dart';
 import 'dart:io';
 
+import 'package:whatscookin/pages/perfil.dart';
+
 // TODO: Todo lo de aqui
 
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
-
-//TODO: Funcionalidad
+final busquedaController = TextEditingController();
 
 class _HomeState extends State<Home> {
   static final String path = "lib/src/pages/food/recipe_list.dart";
-  final Color color1 = Color(0xffB5192F);
-  final Color color2 = Color(0xffE21F3D);
-  final Color color3 = Color(0xffFE1949);
+  final Color color1 = Color(0xffcc5214);
+  final Color color2 = Color(0xffe8570e);
+  final Color color3 = Color(0xffff5600);
   final Color color4 = Color(0xffF0631C);
   final List<String> images = [
     "https://dummyimage.com/600x400/000/fff",
@@ -29,11 +30,28 @@ class _HomeState extends State<Home> {
     "https://dummyimage.com/600x400/a5bd5e/fff",
     "https://dummyimage.com/600x400/bd975e/fff",
   ];
+
   // TODO: Por algún motivo peta, intenta mostrar más items de los que hay
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     return Scaffold(
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 50.0),
+          child: FloatingActionButton(
+            child: Icon(
+              Icons.person,
+              color: Colors.deepOrange,
+            ),
+            backgroundColor: Colors.white,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Perfil()),
+              );
+            },
+          ),
+        ),
         body: Stack(
           children: <Widget>[
             Container(
@@ -48,7 +66,7 @@ class _HomeState extends State<Home> {
               width: 300,
               decoration: BoxDecoration(
                   borderRadius:
-                  BorderRadius.only(bottomRight: Radius.circular(30)),
+                      BorderRadius.only(bottomRight: Radius.circular(30)),
                   color: color2),
             ),
             Container(
@@ -56,7 +74,7 @@ class _HomeState extends State<Home> {
               width: 80,
               decoration: BoxDecoration(
                   borderRadius:
-                  BorderRadius.only(bottomRight: Radius.circular(30)),
+                      BorderRadius.only(bottomRight: Radius.circular(30)),
                   color: color1),
             ),
             SingleChildScrollView(
@@ -65,7 +83,7 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   SizedBox(height: 30.0),
                   _buildHeader(context),
-                  SizedBox(height: 40.0),
+                  SizedBox(height: 25.0),
                   Padding(
                     padding: const EdgeInsets.only(left: 16.0),
                     child: Text(
@@ -96,7 +114,8 @@ class _HomeState extends State<Home> {
                     child: ListView.builder(
                       padding: const EdgeInsets.only(left: 16.0),
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) =>  _buildItem(context, index, large:  true),
+                      itemBuilder: (context, index) =>
+                          _buildItem(context, index, large: true),
                     ),
                   ),
                   SizedBox(height: 20.0),
@@ -113,7 +132,8 @@ class _HomeState extends State<Home> {
                     child: ListView.builder(
                       padding: const EdgeInsets.only(left: 16.0),
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) =>  _buildItem(context, index, large:  true),
+                      itemBuilder: (context, index) =>
+                          _buildItem(context, index, large: true),
                     ),
                   ),
                   SizedBox(height: 40.0),
@@ -124,15 +144,23 @@ class _HomeState extends State<Home> {
               bottom: 0,
               left: 0,
               right: 0,
-
               child: TextField(
+                controller: busquedaController,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                     fillColor: Colors.black87,
-                    suffixIcon: Icon(Icons.search, color: Colors.white70,),
+                    suffixIcon: FlatButton(
+                      onPressed: () {
+                        print(busquedaController.text);
+                      }, // TODO: Funcionalidad de búsqueda
+                      child: Icon(
+                        Icons.search,
+                        color: Colors.white70,
+                      ),
+                    ),
                     filled: true,
-                    hintText: "Search your recipe",
-                    hintStyle: TextStyle(color: Colors.white70)
-                ),
+                    hintText: "Busca una receta",
+                    hintStyle: TextStyle(color: Colors.white70)),
               ),
             )
           ],
@@ -141,7 +169,7 @@ class _HomeState extends State<Home> {
 
   Widget _buildItem(BuildContext context, index, {bool large = false}) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         print(index);
       },
       child: Container(
@@ -178,25 +206,18 @@ class _HomeState extends State<Home> {
   Row _buildHeader(BuildContext context) {
     return Row(
       children: <Widget>[
-        IconButton(
-          color: Colors.white,
-          iconSize: 40.0,
-          icon: Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
         SizedBox(width: 40.0),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              SizedBox(height: 10,),
               Text(
-                "Your customised",
+                "Whatscookin",
                 style: TextStyle(color: Colors.white),
               ),
               Text(
-                "Breakfast".toUpperCase(),
+                "today?".toUpperCase(),
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 24.0,
@@ -209,10 +230,10 @@ class _HomeState extends State<Home> {
           color: Colors.white,
           textColor: Colors.white,
           borderSide: BorderSide(color: Colors.white),
-          child: Text("FILTROS"),
-          onPressed: () {},
+          child: Text("Búsqueda\nAvanzada".toUpperCase()),
+          onPressed: () {}, // TODO: Funcionalidad de búsqueda con filtros
         ),
-        SizedBox(width: 16.0),
+        SizedBox(width: 20.0),
       ],
     );
   }

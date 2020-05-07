@@ -7,10 +7,13 @@ import 'package:whatscookin/api/api.dart' as api;
 import 'package:whatscookin/api/services/usuario.dart' as apiUsuario;
 import 'package:whatscookin/api/services/receta.dart' as apiReceta;
 import 'package:whatscookin/api/services/favorito.dart' as apiFavorito;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:whatscookin/pages/login.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'receta.dart';
 
-int idUsuario = 2; //TODO: Cómo almacenar y obtener sharedproperties
+int idUsuario; //TODO: Problema de llamadas infinitas para la API
 bool loaded = false;
 
 //Dar funcionalidad para cambiar el correo?
@@ -25,7 +28,7 @@ class _PerfilState extends State<Perfil> {
   List<dynamic> listMisRecetas = [];
   List<dynamic> listFavoritos = [];
 
-  String nombre = ""; // 29 limite de caracteres en nombre
+  String nombre = "";
   String email = "";
   var avatar =
       'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png';
@@ -46,76 +49,79 @@ class _PerfilState extends State<Perfil> {
       recetasUsuario();
       recetasFavoritas();
       print("Llamadas realizadas");
-      loaded = true;
     });
   }
 
   infoUsuario() async {
-    if (loaded == false) {
-      usuario = await Future.value(apiUsuario.getUsuario(idUsuario));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    idUsuario = await prefs.getInt('idUsuario');
 
-      var tempAvatar = api.baseUrl +
-          "/imagen/get?id=" +
-          idUsuario.toString() +
-          "&tipo=usuario";
-      if (tempAvatar != null) {
-        avatar = tempAvatar;
-      }
-      nombre = usuario.nombre;
-      email = usuario.email;
+    if (idUsuario == null && idUsuario < 0) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Login()));
     }
+    usuario = await Future.value(apiUsuario.getUsuario(idUsuario));
+
+    var tempAvatar = api.baseUrl +
+        "/imagen/get?id=" +
+        idUsuario.toString() +
+        "&tipo=usuario";
+    if (tempAvatar != null) {
+      avatar = tempAvatar;
+    }
+    nombre = usuario.nombre;
+    email = usuario.email;
   }
 
   recetasUsuario() async {
-    if (loaded == false) {
-      listFavoritos = await Future.value(
-          apiFavorito.getRecetasFavoritasDeUsuario(idUsuario));
+    listFavoritos =
+        await Future.value(apiFavorito.getRecetasFavoritasDeUsuario(idUsuario));
 
-      if (listFavoritos.length > 0) {
-        misFavoritas.clear();
+    if (listFavoritos.length > 0) {
+      misFavoritas.clear();
 
-        for (int i = 0; i < listFavoritos.length; i++) {
-          var map = {};
-          map['id'] = listFavoritos[i].idReceta;
-          map['title'] = listFavoritos[i].titulo;
-          map['image'] = api.baseUrl +
-              "/imagen/get?id=" +
-              listFavoritos[i].idReceta.toString() +
-              "&tipo=receta";
+      for (int i = 0; i < listFavoritos.length; i++) {
+        var map = {};
+        map['id'] = listFavoritos[i].idReceta;
+        map['title'] = listFavoritos[i].titulo;
+        map['image'] = api.baseUrl +
+            "/imagen/get?id=" +
+            listFavoritos[i].idReceta.toString() +
+            "&tipo=receta";
 
-          misFavoritas.add(map);
-        }
+        misFavoritas.add(map);
       }
     }
   }
 
   recetasFavoritas() async {
-    if (loaded == false) {
-      listMisRecetas =
-          await Future.value(apiReceta.getRecetasDeUsuario(idUsuario));
+    listMisRecetas =
+        await Future.value(apiReceta.getRecetasDeUsuario(idUsuario));
 
-      if (listMisRecetas.length > 0) {
-        misRecetas.clear();
+    if (listMisRecetas.length > 0) {
+      misRecetas.clear();
 
-        for (int i = 0; i < listMisRecetas.length; i++) {
-          var map = {};
-          map['id'] = listMisRecetas[i].idReceta;
-          map['title'] = listMisRecetas[i].titulo;
-          map['image'] = api.baseUrl +
-              "/imagen/get?id=" +
-              listMisRecetas[i].idReceta.toString() +
-              "&tipo=receta";
+      for (int i = 0; i < listMisRecetas.length; i++) {
+        var map = {};
+        map['id'] = listMisRecetas[i].idReceta;
+        map['title'] = listMisRecetas[i].titulo;
+        map['image'] = api.baseUrl +
+            "/imagen/get?id=" +
+            listMisRecetas[i].idReceta.toString() +
+            "&tipo=receta";
 
-          misRecetas.add(map);
-        }
+        misRecetas.add(map);
       }
-      setState(() {});
     }
   }
 
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+
+    // TODO: Esta es la unica forma, pero realiza llamadas ilimitadas
+    Future.delayed(const Duration(seconds: 1), () => setState(() {}));
+
     return FutureBuilder(
       future: getData(),
       builder: (context, snapshot) {
@@ -151,13 +157,11 @@ class _PerfilState extends State<Perfil> {
                 child: IconButton(
                   icon: Icon(Icons.exit_to_app, size: 40, color: Colors.white),
                   onPressed: () {
-                    /*
                     showDialog(
                         context: context,
                         builder: (_) {
-                          return; // TODO: Un dialog para confirmar cerrar sesión
+                          return LogOffDialog();
                         });
-                     */
                   },
                 ),
               ),
@@ -198,8 +202,17 @@ class _PerfilState extends State<Perfil> {
                           borderRadius: BorderRadius.circular(5.0),
                           child: FlatButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, "/receta",
-                                  arguments: misFavoritas[index]["id"]);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Receta(),
+                                  // Pass the arguments as part of the RouteSettings. The
+                                  // DetailScreen reads the arguments from these settings.
+                                  settings: RouteSettings(
+                                    arguments: misFavoritas[index]["id"],
+                                  ),
+                                ),
+                              );
                             },
                             child: Image.network(
                               misFavoritas[index]['image'],
@@ -273,7 +286,7 @@ class _PerfilState extends State<Perfil> {
         itemCount: misRecetas.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
-              margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
               width: 150.0,
               height: 200.0,
               child: Column(
@@ -282,24 +295,39 @@ class _PerfilState extends State<Perfil> {
                   Expanded(
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(5.0),
-                          child: Image.network(
-                            misRecetas[index]['image'],
-                            fit: BoxFit.cover,
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  valueColor: new AlwaysStoppedAnimation<Color>(
-                                      Colors.deepOrange),
-                                  value: loadingProgress.expectedTotalBytes !=
-                                          null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes
-                                      : null,
+                          child: FlatButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Receta(),
+                                  // Pass the arguments as part of the RouteSettings. The
+                                  // DetailScreen reads the arguments from these settings.
+                                  settings: RouteSettings(
+                                    arguments: misRecetas[index]["id"],
+                                  ),
                                 ),
                               );
                             },
+                            child: Image.network(
+                              misRecetas[index]['image'],
+                              fit: BoxFit.cover,
+                              loadingBuilder: (BuildContext context, Widget child,
+                                  ImageChunkEvent loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor: new AlwaysStoppedAnimation<Color>(
+                                        Colors.deepOrange),
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress.cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes
+                                        : null,
+                                  ),
+                                );
+                              },
+                            ),
                           ))),
                   SizedBox(
                     height: 5.0,
@@ -384,6 +412,73 @@ class _PerfilState extends State<Perfil> {
                 ),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class LogOffDialog extends StatefulWidget {
+  @override
+  _LogOffDialogState createState() => new _LogOffDialogState();
+}
+
+class _LogOffDialogState extends State<LogOffDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          SizedBox(
+            height: 40,
+          ),
+          Text("¿Desea cerrar sesión?",
+              style: TextStyle(fontSize: 17.0, color: Colors.deepOrange)),
+          SizedBox(
+            height: 30,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              FlatButton(
+                child: Text(
+                  "Cerrar sesión",
+                  style: TextStyle(fontSize: 17.0, color: Colors.deepOrange),
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0)),
+                onPressed: () async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setInt('idUsuario', null);
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/login', (Route<dynamic> route) => false);
+                  Fluttertoast.showToast(
+                      msg: "Sesión cerrada",
+                      toastLength: Toast.LENGTH_SHORT,
+                      backgroundColor: Colors.deepOrangeAccent,
+                      textColor: Colors.white);
+                },
+              ),
+              FlatButton(
+                child: Text(
+                  "Cancelar",
+                  style:
+                      TextStyle(fontSize: 17.0, color: Colors.deepOrangeAccent),
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0)),
+                onPressed: () async {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20,
           ),
         ],
       ),

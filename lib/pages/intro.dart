@@ -43,12 +43,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
-    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
-    const bodyStyle = TextStyle(fontSize: 19.0);
     const pageDecoration = const PageDecoration(
-      titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
-      bodyTextStyle: bodyStyle,
+      titleTextStyle: TextStyle(fontSize: 36.0,  color: Colors.white, fontFamily: 'Alegra'),
+      bodyTextStyle: TextStyle(fontSize: 19.0, color: Colors.white),
       descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       pageColor: Colors.orangeAccent,
       imagePadding: EdgeInsets.zero,
@@ -59,34 +56,36 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       pages: [
         PageViewModel(
           title: "Bienvenido/a a Whatscookin",
-          body: "Another beautiful body text for this example onboarding",
+          body:
+              "¿No sabes qué hacer de comer? No te preocupes, estás en el sitio adecuado",
           image: _buildImage('logo.png'),
-          footer: RaisedButton(
-            onPressed: () {
-              introKey.currentState?.animateScroll(0);
-            },
-            child: const Text(
-              'FooButton',
-              style: TextStyle(color: Colors.white),
-            ),
-            color: Colors.lightBlue,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-          ),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Title of last page",
+          title: "Encuentra y aprende recetas nuevas",
+          body: "Encontrarás multitud de recetas de distintos tipos",
+          image: _buildImage('cooking.gif'),
+          decoration: pageDecoration,
+        ),
+        PageViewModel(
+          title: "Guarda las que más te gusten",
+          body: "¿Tiene buena pinta? Guárdala en favoritos para tenerla a mano",
+          image: _buildImage('tasty.gif'),
+          decoration: pageDecoration,
+        ),
+        PageViewModel(
+          title: "Colabora con tus recetas",
+          body:
+              "Demuestra tus dotes culinarias y compártelas con los demás usuarios subiendo tus propias recetas",
+          image: _buildImage('salt.gif'),
+          decoration: pageDecoration,
+        ),
+        PageViewModel(
+          title: "¡Disfruta de la app!",
           bodyWidget: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text("Click on ", style: bodyStyle),
-              Icon(Icons.edit),
-              Text(" to edit a post", style: bodyStyle),
-            ],
           ),
-          image: _buildImage('cooking.gif'),
+          image: _buildImage('dance.gif'),
           decoration: pageDecoration,
         ),
       ],
@@ -95,9 +94,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       showSkipButton: true,
       skipFlex: 0,
       nextFlex: 0,
-      skip: const Text('Saltar'),
-      next: const Icon(Icons.arrow_forward),
-      done: const Text('Hecho', style: TextStyle(fontWeight: FontWeight.w600)),
+      skip: const Text('Saltar', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
+      next: const Icon(Icons.arrow_forward, color: Colors.white,),
+      done: const Text('Hecho', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
       dotsDecorator: const DotsDecorator(
         size: Size(10.0, 10.0),
         color: Color(0xFFBDBDBD),

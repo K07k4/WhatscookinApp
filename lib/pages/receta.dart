@@ -7,8 +7,13 @@ import 'package:whatscookin/api/services/receta.dart' as apiReceta;
 import 'package:whatscookin/api/services/favorito.dart' as apiFavorito;
 import 'package:whatscookin/api/services/ingrediente.dart' as apiIngrediente;
 import 'package:whatscookin/api/widgets/StarRating.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-int idUsuarioLogin = 1; // TODO: Obtener id del logeado con shared properties
+import 'login.dart';
+
+// TODO: Añadir botón de compartir
+
+int idUsuarioLogin;
 
 int idReceta = 1;
 int idUsuario; // Id del usuario autor de la receta
@@ -68,11 +73,22 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
   }
 
   getData() async {
+    infoVisitante();
     infoReceta();
     infoUsuario();
     infoIngredientes();
     infoFavorito();
     print("Llamadas realizadas");
+  }
+
+  infoVisitante() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    idUsuarioLogin = await prefs.getInt('idUsuario');
+
+    if (idUsuarioLogin == null && idUsuarioLogin < 0) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Login()));
+    }
   }
 
   infoReceta() async {
@@ -147,10 +163,7 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
-    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
-
-    // TODO: No se buildea de nuevo
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
 
     // TODO: Esta es la unica forma, pero realiza llamadas ilimitadas
     Future.delayed(const Duration(milliseconds: 900), () => setState(() {}));
@@ -259,8 +272,6 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
                                 radius: 20.0,
                                 backgroundImage: NetworkImage(avatar),
                               ),
-                              onPressed:
-                                  () {}, // TODO: Llevar al perfil del autor... O no
                             ),
                             FlatButton(
                               shape: RoundedRectangleBorder(
@@ -270,9 +281,7 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
                                 nombreUsuario,
                                 style: TextStyle(
                                     fontSize: 15.0, color: Colors.black),
-                                // TODO: Llevar al perfil del autor... O no
                               ),
-                              // TODO: Llevar al perfil del autor
                             ),
                           ],
                         ),

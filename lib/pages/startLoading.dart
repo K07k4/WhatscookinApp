@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'home.dart';
-
+import 'login.dart';
 
 class StartLoading extends StatefulWidget {
   @override
@@ -13,7 +13,6 @@ class StartLoading extends StatefulWidget {
 }
 
 class _LoadingState extends State<StartLoading> {
-
   @override
   void initState() {
     super.initState();
@@ -29,6 +28,11 @@ class _LoadingState extends State<StartLoading> {
     if (idUsuario != null && idUsuario > 0) {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Home()));
+    }
+
+    if (idUsuario == null) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Login()));
     }
 
     void navigationPageWel() {
@@ -50,11 +54,10 @@ class _LoadingState extends State<StartLoading> {
     return Scaffold(
       backgroundColor: Colors.deepOrangeAccent,
       body: Center(
-        child: SpinKitRipple(
-          color: Colors.white,
-          size: 300.0,
-        )
-      ),
+          child: SpinKitRipple(
+        color: Colors.white,
+        size: 300.0,
+      )),
     );
   }
 }

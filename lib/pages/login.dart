@@ -192,9 +192,9 @@ class LoginPageState extends State<Login> {
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
                           prefs.setInt('idUsuario', value);
-                          print(usuarioController.text);
-                          print(passController.text);
                           if (value != -1) {
+                            usuarioController.clear();
+                            passController.clear();
                             Fluttertoast.showToast(
                                 msg: "¡Login correcto!",
                                 toastLength: Toast.LENGTH_LONG,

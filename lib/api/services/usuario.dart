@@ -38,11 +38,12 @@ Future<int> crearUsuario(String nombre, String pass, String email) async {
 
 Future<int> login(String user, String pass) async {
   var check = -1;
-  final response = await http.post(
-      path + "/login?user=" + user + "&pass=" + pass);
+  final response =
+      await http.post(path + "/login?user=" + user + "&pass=" + pass);
 
   if (response.statusCode == 200) {
-    check = jsonDecode(response.body.toString()); // toString of Response's body is assigned to jsonDataString
+    check = jsonDecode(response.body
+        .toString()); // toString of Response's body is assigned to jsonDataString
   }
   return check;
 }
