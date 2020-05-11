@@ -205,6 +205,13 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_keyboard_visibility">
+          <value>
+            <list>
+              <option value="D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_keyboard_visibility-0.7.0/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter_launcher_icons">
           <value>
             <list>
@@ -226,10 +233,24 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_tagging">
+          <value>
+            <list>
+              <option value="D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_tagging-1.1.0/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter_test">
           <value>
             <list>
               <option value="D:/bin/flutter/packages/flutter_test/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="flutter_typeahead">
+          <value>
+            <list>
+              <option value="D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_typeahead-1.8.1/lib" />
             </list>
           </value>
         </entry>
@@ -621,9 +642,12 @@
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/dots_indicator-1.1.0/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/fixnum-0.10.11/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_html-0.8.2/lib" />
+      <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_keyboard_visibility-0.7.0/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_launcher_icons-0.7.5/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_spinkit-4.1.2+1/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_statusbarcolor-0.2.3/lib" />
+      <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_tagging-1.1.0/lib" />
+      <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_typeahead-1.8.1/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-4.0.1/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/glob-1.2.0/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/graphs-0.2.0/lib" />

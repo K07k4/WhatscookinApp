@@ -163,7 +163,6 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
 
-    // TODO: Esta es la unica forma, pero realiza llamadas ilimitadas
     Future.delayed(const Duration(milliseconds: 900), () => setState(() {}));
 
     return FutureBuilder(

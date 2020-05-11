@@ -118,8 +118,6 @@ class _PerfilState extends State<Perfil> {
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
-
-    // TODO: Esta es la unica forma, pero realiza llamadas ilimitadas
     Future.delayed(const Duration(seconds: 1), () => setState(() {}));
 
     return FutureBuilder(
@@ -264,7 +262,7 @@ class _PerfilState extends State<Perfil> {
             style: Theme.of(context).textTheme.title,
           ),
           FlatButton(
-            onPressed: () {}, // TODO: Dar funcionalidad al botón
+            onPressed: () {}, // TODO: Enviar a crear receta
             child: Text(
               "Crear nueva",
               style: TextStyle(color: Colors.deepOrange),

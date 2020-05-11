@@ -36,6 +36,7 @@ dev_dependencies:
   fluttertoast: ^4.0.0
   shared_preferences: ^0.5.7+1
   flutter_spinkit: ^4.1.1+1
+  flutter_tagging: ^1.1.0
 
 
   build_runner:

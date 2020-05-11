@@ -9,6 +9,7 @@ MERGED from [:fluttertoast] D:\Kotka\Desktop\Apps\whatscookin\build\fluttertoast
 MERGED from [:shared_preferences] D:\Kotka\Desktop\Apps\whatscookin\build\shared_preferences\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:shared_preferences_web] D:\Kotka\Desktop\Apps\whatscookin\build\shared_preferences_web\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:shared_preferences_macos] D:\Kotka\Desktop\Apps\whatscookin\build\shared_preferences_macos\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:flutter_keyboard_visibility] D:\Kotka\Desktop\Apps\whatscookin\build\flutter_keyboard_visibility\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_statusbarcolor] D:\Kotka\Desktop\Apps\whatscookin\build\flutter_statusbarcolor\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.fragment:fragment:1.0.0] C:\Users\Kotka\.gradle\caches\transforms-2\files-2.1\84d22784334fd028cdf746ac44fa3342\fragment-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\Kotka\.gradle\caches\transforms-2\files-2.1\e3eb8b15772ec829dcf209e8e802e713\legacy-support-core-ui-1.0.0\AndroidManifest.xml:17:1-22:12
@@ -106,6 +107,8 @@ MERGED from [:shared_preferences_web] D:\Kotka\Desktop\Apps\whatscookin\build\sh
 MERGED from [:shared_preferences_web] D:\Kotka\Desktop\Apps\whatscookin\build\shared_preferences_web\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences_macos] D:\Kotka\Desktop\Apps\whatscookin\build\shared_preferences_macos\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences_macos] D:\Kotka\Desktop\Apps\whatscookin\build\shared_preferences_macos\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:flutter_keyboard_visibility] D:\Kotka\Desktop\Apps\whatscookin\build\flutter_keyboard_visibility\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:flutter_keyboard_visibility] D:\Kotka\Desktop\Apps\whatscookin\build\flutter_keyboard_visibility\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_statusbarcolor] D:\Kotka\Desktop\Apps\whatscookin\build\flutter_statusbarcolor\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_statusbarcolor] D:\Kotka\Desktop\Apps\whatscookin\build\flutter_statusbarcolor\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [androidx.fragment:fragment:1.0.0] C:\Users\Kotka\.gradle\caches\transforms-2\files-2.1\84d22784334fd028cdf746ac44fa3342\fragment-1.0.0\AndroidManifest.xml:20:5-44

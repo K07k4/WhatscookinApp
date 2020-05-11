@@ -222,7 +222,9 @@ class _HomeState extends State<Home> {
           textColor: Colors.white,
           borderSide: BorderSide(color: Colors.white),
           child: Text("Búsqueda\nAvanzada".toUpperCase()),
-          onPressed: () {}, // TODO: Funcionalidad de búsqueda con filtros
+          onPressed: () {
+            Navigator.pushNamed(context, "/filtro");
+          }, // TODO: Funcionalidad de búsqueda con filtros
         ),
         SizedBox(width: 20.0),
       ],
