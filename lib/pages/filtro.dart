@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:whatscookin/api/services/receta.dart' as apiReceta;
 
@@ -12,15 +11,28 @@ class Filtro extends StatefulWidget {
   FiltroPageState createState() => FiltroPageState();
 }
 
+List<dynamic> listIngredientes = [];
 List<dynamic> listTipos = ["tipo", "tipo"];
 
+List<Map> mapIngredientes = [];
 List<Map> mapTipos = [];
-var text = "";
+
+var text = ""; // Ingredientes elegidos, revisalo
 String tipoReceta = "Tipo";
 var duracionMin = 0.0;
 var duracionMax = 120.0;
 var duracionValues = RangeValues(duracionMin, duracionMax);
 var duracionStrMax = "120";
+
+var dificultadMin = 1.0;
+var dificultadMax = 3.0;
+var dificultadValues = RangeValues(dificultadMin, dificultadMax);
+var dificultadStrMin = "Fácil";
+var dificultadStrMax = "Avanzada";
+
+var puntuacionMin = 0.0;
+var puntuacionMax = 5.0;
+var puntuacionValues = RangeValues(puntuacionMin, puntuacionMax);
 
 final tituloController = TextEditingController();
 final usuarioController = TextEditingController();
@@ -83,7 +95,7 @@ class FiltroPageState extends State<Filtro> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Text(
-                        "Filtrado",
+                        "Búsqueda avanzada",
                         style: TextStyle(color: Colors.white, fontSize: 22),
                       ),
                       SizedBox(
@@ -164,7 +176,7 @@ class FiltroPageState extends State<Filtro> {
                           textFieldDecoration: InputDecoration(
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
-                                horizontal: 25, vertical: 13),
+                                horizontal: 10, vertical: 13),
                             hintText: "Ingredientes",
                           ),
                           chipsColor: Colors.deepOrangeAccent,
@@ -244,6 +256,112 @@ class FiltroPageState extends State<Filtro> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Text(
+                    "Dificultad",
+                    style: TextStyle(color: Colors.white, fontSize: 22),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                    child: SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                          valueIndicatorTextStyle: TextStyle(
+                              color: Colors.deepOrangeAccent,
+                              letterSpacing: 2.0)),
+                      child: RangeSlider(
+                        // TODO: Debe obtener las dificultades desde la api
+                        values: dificultadValues,
+                        min: 1,
+                        max: 3,
+                        divisions: 2,
+                        activeColor: Colors.white,
+                        labels: RangeLabels(
+                            '$dificultadStrMin', '$dificultadStrMax'),
+                        onChanged: (values) {
+                          setState(() {
+                            switch (values.end.round()) {
+                              case 1:
+                                dificultadStrMax = "Fácil";
+                                break;
+                              case 2:
+                                dificultadStrMax = "Media";
+                                break;
+                              case 3:
+                                dificultadStrMax = "Avanzada";
+                                break;
+                            }
+                            switch (values.start.round()) {
+                              case 1:
+                                dificultadStrMin = "Fácil";
+                                break;
+                              case 2:
+                                dificultadStrMin = "Media";
+                                break;
+                              case 3:
+                                dificultadStrMin = "Avanzada";
+                                break;
+                            }
+                            dificultadValues = values;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Text(
+                    "Puntuación",
+                    style: TextStyle(color: Colors.white, fontSize: 22),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                    child: SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                          valueIndicatorTextStyle: TextStyle(
+                              color: Colors.deepOrangeAccent,
+                              letterSpacing: 2.0)),
+                      child: RangeSlider(
+                        values: puntuacionValues,
+                        min: 0,
+                        max: 5,
+                        divisions: 10,
+                        activeColor: Colors.white,
+                        labels: RangeLabels('${puntuacionValues.start}',
+                            '${puntuacionValues.end}'),
+                        onChanged: (values) {
+                          setState(() {
+                            puntuacionValues = values;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 32),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(100)),
+                            color: Colors.orange[900]),
+                        child: FlatButton(
+                          child: Text(
+                            "Buscar",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 22),
+                          ),
+                          onPressed: () {
+                            // TODO: Realizar la busqueda
+                          },
+                        ),
+                      )),
                 ],
               ),
             )
@@ -290,9 +408,7 @@ class _ListaTiposRecetaDialogState extends State<ListaTiposRecetaDialog> {
           SizedBox(
             height: 30,
           ),
-          SizedBox(
-            height: 20,
-          ),
+          // TODO: Lista de tipos de ingredientes, de la api
         ],
       ),
     );
