@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
@@ -47,6 +47,13 @@ class FiltroPageState extends State<Filtro> {
     final Color color3 = Color(0xffff5600);
     final Color color4 = Colors.deepOrange.shade300;
 
+    @override
+    Widget loadingBuild(BuildContext context) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+      );
+    }
+
     return FutureBuilder(builder: (context, snapshot) {
       return Scaffold(
         backgroundColor: Colors.white,
@@ -75,16 +82,7 @@ class FiltroPageState extends State<Filtro> {
                       BorderRadius.only(bottomRight: Radius.circular(30)),
                   color: color1),
             ),
-            Positioned(
-              top: MediaQuery.of(context).size.height * 0.05,
-              left: MediaQuery.of(context).size.width * 0.04,
-              child: IconButton(
-                icon: Icon(Icons.arrow_back, size: 40, color: Colors.white),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
+
             SingleChildScrollView(
               child: Column(
                 children: <Widget>[
@@ -173,6 +171,7 @@ class FiltroPageState extends State<Filtro> {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: FlutterTagging(
+                          loadingBuilder: loadingBuild,
                           textFieldDecoration: InputDecoration(
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
@@ -364,7 +363,17 @@ class FiltroPageState extends State<Filtro> {
                       )),
                 ],
               ),
-            )
+            ),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.05,
+              left: MediaQuery.of(context).size.width * 0.04,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back, size: 40, color: Colors.white),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
           ],
         ),
       );
@@ -432,4 +441,5 @@ class TagSearchService {
     }
     return filteredTagList;
   }
+
 }

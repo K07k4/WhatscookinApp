@@ -161,7 +161,7 @@ class OlvidoPassPageState extends State<OlvidoPass> {
 
                     if (check) {
                       switch (response) {
-                        case 400:
+                        case 200:
                           Fluttertoast.showToast(
                               msg: "Contraseña enviada correctamente",
                               toastLength: Toast.LENGTH_SHORT,
