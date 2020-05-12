@@ -7,6 +7,8 @@ import 'dart:io';
 
 import 'package:whatscookin/pages/perfil.dart';
 
+import 'filtro.dart';
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -223,8 +225,11 @@ class _HomeState extends State<Home> {
           borderSide: BorderSide(color: Colors.white),
           child: Text("Búsqueda\nAvanzada".toUpperCase()),
           onPressed: () {
-            Navigator.pushNamed(context, "/filtro");
-          }, // TODO: Funcionalidad de búsqueda con filtros
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Filtro()),
+            );
+          },
         ),
         SizedBox(width: 20.0),
       ],

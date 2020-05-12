@@ -11,13 +11,12 @@ class Filtro extends StatefulWidget {
   FiltroPageState createState() => FiltroPageState();
 }
 
-List<dynamic> listIngredientes = [];
+List<int> listIdIngredientes = [];
 List<dynamic> listTipos = ["tipo", "tipo"];
 
 List<Map> mapIngredientes = [];
 List<Map> mapTipos = [];
 
-var text = ""; // Ingredientes elegidos, revisalo
 String tipoReceta = "Tipo";
 var duracionMin = 0.0;
 var duracionMax = 120.0;
@@ -82,7 +81,6 @@ class FiltroPageState extends State<Filtro> {
                       BorderRadius.only(bottomRight: Radius.circular(30)),
                   color: color1),
             ),
-
             SingleChildScrollView(
               child: Column(
                 children: <Widget>[
@@ -190,32 +188,24 @@ class FiltroPageState extends State<Filtro> {
                           },
                           onChanged: (result) {
                             setState(() {
-                              text = result.toString();
-                              print(text);
+                              listIdIngredientes.clear();
+                              var counter = 0;
+                              try {
+                                while (true) {
+                                  listIdIngredientes
+                                      .add((result[counter]['value']));
+
+                                  print(listIdIngredientes.toString());
+
+                                  counter++;
+                                }
+                              } catch (e) {
+                                counter = 0;
+                              }
                             });
                           },
                           addButtonWidget: null,
                         ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 45),
-                    child: Material(
-                      elevation: 2.0,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      child: TextField(
-                        controller: tituloController,
-                        onChanged: (String value) {},
-                        cursorColor: Colors.deepOrange,
-                        decoration: InputDecoration(
-                            hintText: "Usuario",
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 25, vertical: 13)),
                       ),
                     ),
                   ),
@@ -356,8 +346,18 @@ class FiltroPageState extends State<Filtro> {
                                 fontWeight: FontWeight.w700,
                                 fontSize: 22),
                           ),
-                          onPressed: () {
-                            // TODO: Realizar la busqueda
+                          onPressed: () async {
+                            await apiReceta.getRecetaBusqueda(
+                                //TODO: Falta tipo de receta
+                                tituloController.text,
+                                0,
+                                dificultadValues.start.round(),
+                                dificultadValues.end.round(),
+                                duracionValues.start.round(),
+                                duracionValues.end.round(),
+                                puntuacionValues.start,
+                                puntuacionValues.end,
+                                listIdIngredientes);
                           },
                         ),
                       )),
@@ -427,12 +427,12 @@ class _ListaTiposRecetaDialogState extends State<ListaTiposRecetaDialog> {
 class TagSearchService {
   static Future<List> getSuggestions(String query) async {
     await Future.delayed(Duration(milliseconds: 400), null);
-    List<dynamic> tagList = <dynamic>[];
-    tagList.add({'name': "Aguacate", 'value': 1});
-    tagList.add({'name': "Pollo", 'value': 2});
-    tagList.add({'name': "Lechuga", 'value': 3});
-    tagList.add({'name': "Mayonesa", 'value': 4});
-    tagList.add({'name': "Bacon", 'value': 5});
+    List<dynamic> tagList = <dynamic>[]; // TODO: Obtener todos los ingredientes
+    tagList.add({'name': "Pollo", 'value': 1});
+    tagList.add({'name': "Lechuga", 'value': 2});
+    tagList.add({'name': "Aguacate", 'value': 3});
+    tagList.add({'name': "Zanahoria", 'value': 4});
+    tagList.add({'name': "Ternera", 'value': 5});
     List<dynamic> filteredTagList = <dynamic>[];
     for (var tag in tagList) {
       if (tag['name'].toLowerCase().contains(query)) {
@@ -441,5 +441,4 @@ class TagSearchService {
     }
     return filteredTagList;
   }
-
 }
