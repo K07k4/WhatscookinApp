@@ -22,15 +22,81 @@ Future<Receta> getReceta(int idReceta) async {
 
     return receta;
   } else {
-    getReceta(idReceta);
+    throw Exception('No se ha encontrado receta');
+  }
+}
+
+Future<int> getAleatoria() async {
+  final response = await http.get(path + "/getAleatoria");
+
+  if (response.statusCode == 200) {
+    var idReceta = json.decode(response.body);
+
+    return idReceta;
+  } else {
+    throw Exception('No se ha encontrado receta');
+  }
+}
+
+Future<List> getMejores() async {
+  var response = await http.get(path + "/getMejores");
+
+  if (response.statusCode == 200) {
+    List recetasBruto = json.decode(response.body);
+
+    List recetas = [];
+    for (int i = 0; i < recetasBruto.length; i++) {
+      final receta = Receta.fromJson(recetasBruto[i]);
+      recetas.add(receta);
+    }
+
+    return recetas;
+  } else {
+    throw Exception('No se han encontrado recetas');
+  }
+}
+
+Future<List> getMasPuntuadas() async {
+  var response = await http.get(path + "/getMasPuntuadas");
+
+  if (response.statusCode == 200) {
+    List recetasBruto = json.decode(response.body);
+
+    List recetas = [];
+    for (int i = 0; i < recetasBruto.length; i++) {
+      final receta = Receta.fromJson(recetasBruto[i]);
+      recetas.add(receta);
+    }
+
+    return recetas;
+  } else {
+    throw Exception('No se han encontrado recetas');
+  }
+}
+
+Future<List> getMasRecientes() async {
+  var response = await http.get(path + "/getMasRecientes");
+
+  if (response.statusCode == 200) {
+    List recetasBruto = json.decode(response.body);
+
+    List recetas = [];
+    for (int i = 0; i < recetasBruto.length; i++) {
+      final receta = Receta.fromJson(recetasBruto[i]);
+      recetas.add(receta);
+    }
+
+    return recetas;
+  } else {
+    throw Exception('No se han encontrado recetas');
   }
 }
 
 Future<List> getRecetasDeUsuario(int idUsuario) async {
   final response = await http.get(path +
-      "/getRecetasBusqueda?idTipoReceta=&idUsuario=" +
+      "/getRecetasBusqueda?tituloReceta=&idTipoReceta=&idUsuario=" +
       idUsuario.toString() +
-      "&idDificultad=&duracion=&puntuacionMinima=&idIngrediente=");
+      "&idDificultadMin=&idDificultadMax=&duracionMin=&duracionMax=&puntuacionMin=&puntuacionMax=&idIngrediente");
   if (response.statusCode == 200) {
     List recetasBruto = json.decode(response.body);
 
@@ -82,6 +148,31 @@ puntuar(int idReceta, int idUsuario, double puntuacion) async {
       puntuacion.toString());
 }
 
+Future<List<Receta>> getRecetaBusquedaTitulo(String tituloReceta) async {
+  var request = path +
+      "/getRecetasBusqueda?tituloReceta=" +
+      tituloReceta +
+      "&idTipoReceta=&idUsuario=&idDificultadMin=&idDificultadMax=&duracionMin=&duracionMax=&puntuacionMin=&puntuacionMax=&idIngrediente=";
+  
+  final response = await http.get(request);
+  List<Receta> listRecetas = [];
+  if (response.statusCode == 200) {
+    try {
+      int counter = 0;
+      while (true) {
+        listRecetas.add(Receta.fromJson(json.decode(response.body)[counter]));
+        counter++;
+      }
+    } catch (e) {}
+
+    print(listRecetas);
+
+    return listRecetas;
+  } else {
+    throw Exception('No se ha encontrado el tipo de receta');
+  }
+}
+
 Future<List<Receta>> getRecetaBusqueda(
     String tituloReceta,
     int idTipoReceta,
@@ -118,8 +209,6 @@ Future<List<Receta>> getRecetaBusqueda(
     request += "&idIngrediente=";
   }
 
-  print(request);
-
   final response = await http.get(request);
   List<Receta> listRecetas = [];
   if (response.statusCode == 200) {
@@ -131,10 +220,10 @@ Future<List<Receta>> getRecetaBusqueda(
       }
     } catch (e) {}
 
-    for (Receta receta in listRecetas) {
-      print(receta.titulo);
-    }
+    print(listRecetas);
 
     return listRecetas;
+  } else {
+    throw Exception('No se ha encontrado el tipo de receta');
   }
 }

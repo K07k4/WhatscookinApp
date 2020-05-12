@@ -118,8 +118,7 @@ class _PerfilState extends State<Perfil> {
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
-    Future.delayed(const Duration(seconds: 1), () => setState(() {}));
-
+    Future.delayed(const Duration(seconds: 2), () => setState(() {}));
     return FutureBuilder(
       future: getData(),
       builder: (context, snapshot) {
@@ -185,66 +184,50 @@ class _PerfilState extends State<Perfil> {
       padding: EdgeInsets.symmetric(horizontal: 10.0),
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
-        scrollDirection: Axis.vertical,
+        scrollDirection: Axis.horizontal,
         itemCount: misFavoritas.length,
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-              margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 40.0),
-              width: 150.0,
-              height: 280.0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5.0),
-                          child: FlatButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Receta(),
-                                  // Pass the arguments as part of the RouteSettings. The
-                                  // DetailScreen reads the arguments from these settings.
-                                  settings: RouteSettings(
-                                    arguments: misFavoritas[index]["id"],
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Image.network(
-                              misFavoritas[index]['image'],
-                              fit: BoxFit.cover,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    valueColor:
-                                        new AlwaysStoppedAnimation<Color>(
-                                            Colors.deepOrange),
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes
-                                        : null,
-                                  ),
-                                );
-                              },
-                            ),
-                          ))),
-                  SizedBox(
-                    height: 5.0,
-                  ),
-                  Text(misFavoritas[index]['title'],
-                      style: Theme.of(context)
-                          .textTheme
-                          .subhead
-                          .merge(TextStyle(color: Colors.deepOrange.shade600)))
-                ],
-              ));
+          return Column(
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Receta(),
+                      // Pass the arguments as part of the RouteSettings. The
+                      // DetailScreen reads the arguments from these settings.
+                      settings: RouteSettings(
+                        arguments: misFavoritas[index]["id"],
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            misFavoritas[index]['image'],
+                          ),
+                          fit: BoxFit.cover,
+                        )),
+                    margin:
+                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                    width: 200.0,
+                    height: 120.0),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text(misFavoritas[index]['title'],
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subhead
+                      .merge(TextStyle(color: Colors.deepOrange.shade600))),
+            ],
+          );
         },
       ),
     );
@@ -283,60 +266,47 @@ class _PerfilState extends State<Perfil> {
         scrollDirection: Axis.horizontal,
         itemCount: misRecetas.length,
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-              width: 150.0,
-              height: 200.0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5.0),
-                          child: FlatButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Receta(),
-                                  // Pass the arguments as part of the RouteSettings. The
-                                  // DetailScreen reads the arguments from these settings.
-                                  settings: RouteSettings(
-                                    arguments: misRecetas[index]["id"],
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Image.network(
-                              misRecetas[index]['image'],
-                              fit: BoxFit.cover,
-                              loadingBuilder: (BuildContext context, Widget child,
-                                  ImageChunkEvent loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    valueColor: new AlwaysStoppedAnimation<Color>(
-                                        Colors.deepOrange),
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress.cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes
-                                        : null,
-                                  ),
-                                );
-                              },
-                            ),
-                          ))),
-                  SizedBox(
-                    height: 5.0,
-                  ),
-                  Text(misRecetas[index]['title'],
-                      style: Theme.of(context)
-                          .textTheme
-                          .subhead
-                          .merge(TextStyle(color: Colors.deepOrange.shade600)))
-                ],
-              ));
+          return Column(
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Receta(),
+                      // Pass the arguments as part of the RouteSettings. The
+                      // DetailScreen reads the arguments from these settings.
+                      settings: RouteSettings(
+                        arguments: misRecetas[index]["id"],
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            misRecetas[index]['image'],
+                          ),
+                          fit: BoxFit.cover,
+                        )),
+                    margin:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                    width: 200.0,
+                    height: 120.0),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text(misRecetas[index]['title'],
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subhead
+                      .merge(TextStyle(color: Colors.deepOrange.shade600))),
+            ],
+          );
         },
       ),
     );

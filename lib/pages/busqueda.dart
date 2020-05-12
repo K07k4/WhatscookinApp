@@ -6,9 +6,9 @@ import 'package:flutter_tagging/flutter_tagging.dart';
 
 import 'package:whatscookin/api/services/receta.dart' as apiReceta;
 
-class Filtro extends StatefulWidget {
+class Busqueda extends StatefulWidget {
   @override
-  FiltroPageState createState() => FiltroPageState();
+  BusquedaPageState createState() => BusquedaPageState();
 }
 
 List<int> listIdIngredientes = [];
@@ -36,7 +36,7 @@ var puntuacionValues = RangeValues(puntuacionMin, puntuacionMax);
 final tituloController = TextEditingController();
 final usuarioController = TextEditingController();
 
-class FiltroPageState extends State<Filtro> {
+class BusquedaPageState extends State<Busqueda> {
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
@@ -70,7 +70,7 @@ class FiltroPageState extends State<Filtro> {
               width: 300,
               decoration: BoxDecoration(
                   borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(30)),
+                  BorderRadius.only(bottomRight: Radius.circular(30)),
                   color: color2),
             ),
             Container(
@@ -78,7 +78,7 @@ class FiltroPageState extends State<Filtro> {
               width: 80,
               decoration: BoxDecoration(
                   borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(30)),
+                  BorderRadius.only(bottomRight: Radius.circular(30)),
                   color: color1),
             ),
             SingleChildScrollView(
@@ -129,13 +129,13 @@ class FiltroPageState extends State<Filtro> {
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(100)),
+                              BorderRadius.all(Radius.circular(100)),
                               color: Colors.orange[800]),
                           child: FlatButton(
                             child: Text(
                               "Tipo de receta",
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
+                              TextStyle(color: Colors.white, fontSize: 18),
                             ),
                             onPressed: () {
                               showDialog(
@@ -151,7 +151,7 @@ class FiltroPageState extends State<Filtro> {
                         child: Text(tipoReceta,
                             textAlign: TextAlign.center,
                             style:
-                                TextStyle(color: Colors.white, fontSize: 22)),
+                            TextStyle(color: Colors.white, fontSize: 22)),
                       ),
                       SizedBox(
                         width: 35,
@@ -336,7 +336,7 @@ class FiltroPageState extends State<Filtro> {
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius:
-                                BorderRadius.all(Radius.circular(100)),
+                            BorderRadius.all(Radius.circular(100)),
                             color: Colors.orange[900]),
                         child: FlatButton(
                           child: Text(
@@ -348,7 +348,7 @@ class FiltroPageState extends State<Filtro> {
                           ),
                           onPressed: () async {
                             await apiReceta.getRecetaBusqueda(
-                                //TODO: Falta tipo de receta
+                              //TODO: Falta tipo de receta
                                 tituloController.text,
                                 0,
                                 dificultadValues.start.round(),
