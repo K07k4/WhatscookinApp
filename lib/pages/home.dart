@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-import 'package:whatscookin/api/services/receta.dart' as receta;
 import 'package:whatscookin/api/services/receta.dart' as apiReceta;
 import 'package:whatscookin/pages/receta.dart';
 import 'package:whatscookin/api/api.dart' as api;
-import 'package:flutter/material.dart';
-import 'dart:io';
 
 import 'package:whatscookin/pages/perfil.dart';
 

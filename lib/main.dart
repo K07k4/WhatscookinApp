@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whatscookin/pages/busqueda.dart';
+import 'package:whatscookin/pages/crearReceta.dart';
 import 'package:whatscookin/pages/filtro.dart';
 import 'package:whatscookin/pages/intro.dart';
 import 'package:whatscookin/pages/login.dart';
@@ -12,7 +13,7 @@ import 'package:whatscookin/pages/startLoading.dart';
 import 'pages/home.dart';
 
 void main() => runApp(MaterialApp(
-        initialRoute: '/busqueda'
+        initialRoute: '/filtro'
             '',
         routes: {
           '/home': (context) => Home(),
@@ -26,4 +27,5 @@ void main() => runApp(MaterialApp(
           '/startLoading': (context) => StartLoading(),
           '/filtro': (context) => Filtro(),
           '/busqueda': (context) => Busqueda(),
+          '/crearReceta': (context) => CrearReceta(),
         }));

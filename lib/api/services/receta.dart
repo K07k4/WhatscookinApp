@@ -13,6 +13,19 @@ Future<List> getAllRecetas() async {
   return data;
 }
 
+Future<List> getAllTiposRecetas() async {
+  var response = await http.get(path + "/getAllTipos");
+  List data = await json.decode(response.body);
+
+  List<TipoReceta> lista = [];
+
+  for(int i = 0; i < data.length; i++) {
+    lista.add(TipoReceta.fromJson(data[i]));
+  }
+  print(lista);
+  return lista;
+}
+
 Future<Receta> getReceta(int idReceta) async {
   final response =
       await http.get(path + "/getReceta?idReceta=" + idReceta.toString());

@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
+import 'package:whatscookin/api/classes/TipoReceta.dart';
 
 import 'package:whatscookin/api/services/receta.dart' as apiReceta;
 
@@ -12,12 +13,13 @@ class Filtro extends StatefulWidget {
 }
 
 List<int> listIdIngredientes = [];
-List<dynamic> listTipos = ["tipo", "tipo"];
+List<dynamic> listTipos = [];
 
 List<Map> mapIngredientes = [];
 List<Map> mapTipos = [];
 
 String tipoReceta = "Tipo";
+var idTipoReceta = 0;
 var duracionMin = 0.0;
 var duracionMax = 120.0;
 var duracionValues = RangeValues(duracionMin, duracionMax);
@@ -38,8 +40,20 @@ final usuarioController = TextEditingController();
 
 class FiltroPageState extends State<Filtro> {
   @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    await apiReceta.getAllTiposRecetas();
+  }
+
+  @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+
+    Future.delayed(const Duration(seconds: 1), () => setState(() {}));
 
     final Color color1 = Color(0xffcc5214);
     final Color color2 = Color(0xffe8570e);
@@ -348,9 +362,8 @@ class FiltroPageState extends State<Filtro> {
                           ),
                           onPressed: () async {
                             await apiReceta.getRecetaBusqueda(
-                                //TODO: Falta tipo de receta
                                 tituloController.text,
-                                0,
+                                idTipoReceta,
                                 dificultadValues.start.round(),
                                 dificultadValues.end.round(),
                                 duracionValues.start.round(),
@@ -417,7 +430,24 @@ class _ListaTiposRecetaDialogState extends State<ListaTiposRecetaDialog> {
           SizedBox(
             height: 30,
           ),
-          // TODO: Lista de tipos de ingredientes, de la api
+          Container(
+            height: 300.0,
+            width: 300.0,
+            child: ListView.builder( // TODO: El listado de tipos de receta no se muestra. La api funciona.
+              padding: EdgeInsets.all(6),
+              itemCount: listTipos.length,
+              physics: BouncingScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                TipoReceta item = listTipos[index];
+                return Column(
+                  children: <Widget>[
+                    Text("Receta"),
+                    Text(item.nombre),
+                  ],
+                );
+              },
+            ),
+          )
         ],
       ),
     );
@@ -441,4 +471,27 @@ class TagSearchService {
     }
     return filteredTagList;
   }
+}
+
+@override
+Widget build(BuildContext context) {
+  return ListView.builder(
+    padding: EdgeInsets.all(6),
+    itemCount: listTipos.length,
+    physics: BouncingScrollPhysics(),
+    itemBuilder: (BuildContext context, int index) {
+      TipoReceta item = listTipos[index];
+      return GestureDetector(
+        onTap: () {
+          idTipoReceta = item.idTipoReceta;
+        },
+        child: Card(
+          elevation: 3,
+          child: Column(
+            children: <Widget>[Text(item.nombre)],
+          ),
+        ),
+      );
+    },
+  );
 }
