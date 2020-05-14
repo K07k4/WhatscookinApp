@@ -21,7 +21,6 @@ Future<List> getAllIngredientes() async {
 Future<List> getIngredientesReceta(int idReceta) async {
   final response =
       await http.get(path + "/getIngredientesReceta?id=" + idReceta.toString());
-  print(path + "/getIngredientesReceta?id=" + idReceta.toString());
   if (response.statusCode == 200) {
     List ingredientesBruto = json.decode(response.body);
 

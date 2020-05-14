@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:whatscookin/api/classes/Usuario.dart';
@@ -14,7 +15,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'receta.dart';
 
 int idUsuario;
-bool loaded = false;
+
+int idRecetaBorrar;
+
+List<dynamic> listMisRecetas = [];
+List<dynamic> listFavoritos = [];
+List<Map> misRecetas = [];
+
+List<Map> misFavoritas = [];
 
 //Dar funcionalidad para cambiar el correo?
 
@@ -25,17 +33,14 @@ class Perfil extends StatefulWidget {
 
 class _PerfilState extends State<Perfil> {
   Usuario usuario;
-  List<dynamic> listMisRecetas = [];
-  List<dynamic> listFavoritos = [];
+
 
   String nombre = "";
   String email = "";
   var avatar =
       'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png';
 
-  List<Map> misRecetas = [];
 
-  List<Map> misFavoritas = [];
 
   @override
   void initState() {
@@ -48,7 +53,6 @@ class _PerfilState extends State<Perfil> {
       infoUsuario();
       recetasUsuario();
       recetasFavoritas();
-      print("Llamadas realizadas");
     });
   }
 
@@ -118,19 +122,29 @@ class _PerfilState extends State<Perfil> {
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
-    Future.delayed(const Duration(seconds: 2), () => setState(() {}));
+    Future.delayed(const Duration(milliseconds: 1200), () => setState(() {}));
     return FutureBuilder(
       future: getData(),
       builder: (context, snapshot) {
         return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.deepOrange,
+            onPressed: () {
+              Navigator.pushNamed(context, "/crearReceta");
+            },
+          ),
           body: Stack(
             children: <Widget>[
               Container(
                 height: 200.0,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                    Colors.deepOrange.shade300,
-                    Colors.deepOrange.shade500
+                    Colors.orange,
+                    Colors.deepOrange
                   ]),
                 ),
               ),
@@ -237,20 +251,19 @@ class _PerfilState extends State<Perfil> {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         children: <Widget>[
-          Text(
-            "Mis recetas",
-            style: Theme.of(context).textTheme.title,
+          SizedBox(height: 10,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                "Mis recetas",
+                style: Theme.of(context).textTheme.title,
+              ),
+            ],
           ),
-          FlatButton(
-            onPressed: () {}, // TODO: Enviar a crear receta
-            child: Text(
-              "Crear nueva",
-              style: TextStyle(color: Colors.deepOrange),
-            ),
-          )
+          SizedBox(height: 10,)
         ],
       ),
     );
@@ -281,6 +294,14 @@ class _PerfilState extends State<Perfil> {
                       ),
                     ),
                   );
+                },
+                onLongPress: () {
+                  idRecetaBorrar = index;
+                  showDialog(
+                      context: context,
+                      builder: (_) {
+                        return DeleteReceta();
+                      });
                 },
                 child: Container(
                     decoration: BoxDecoration(
@@ -436,6 +457,68 @@ class _LogOffDialogState extends State<LogOffDialog> {
                   "Cancelar",
                   style:
                       TextStyle(fontSize: 17.0, color: Colors.deepOrangeAccent),
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0)),
+                onPressed: () async {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+class DeleteReceta extends StatefulWidget {
+  @override
+  _DeleteRecetaState createState() => new _DeleteRecetaState();
+}
+
+class _DeleteRecetaState extends State<DeleteReceta> {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          SizedBox(
+            height: 40,
+          ),
+          Text("¿Desea borrar la receta?",
+              style: TextStyle(fontSize: 17.0, color: Colors.deepOrange)),
+          SizedBox(
+            height: 30,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              FlatButton(
+                child: Text(
+                  "Eliminar",
+                  style: TextStyle(fontSize: 17.0, color: Colors.deepOrange),
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0)),
+                onPressed: () async {
+                  setState(() {
+                    apiReceta.delete(misRecetas[idRecetaBorrar]["id"]); //FIXME: Borra pero no actualiza
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                child: Text(
+                  "Cancelar",
+                  style:
+                  TextStyle(fontSize: 17.0, color: Colors.deepOrangeAccent),
                 ),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0)),

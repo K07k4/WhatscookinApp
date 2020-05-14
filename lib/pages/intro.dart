@@ -45,10 +45,16 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     const pageDecoration = const PageDecoration(
-      titleTextStyle: TextStyle(fontSize: 36.0,  color: Colors.white, fontFamily: 'Alegra'),
+      titleTextStyle:
+          TextStyle(fontSize: 36.0, color: Colors.white, fontFamily: 'Alegra'),
       bodyTextStyle: TextStyle(fontSize: 19.0, color: Colors.white),
       descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-      pageColor: Colors.orangeAccent,
+      boxDecoration: BoxDecoration(
+        gradient: LinearGradient(
+            colors: [Colors.deepOrangeAccent, Colors.orangeAccent],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter),
+      ),
       imagePadding: EdgeInsets.zero,
     );
 
@@ -95,9 +101,14 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       showSkipButton: true,
       skipFlex: 0,
       nextFlex: 0,
-      skip: const Text('Saltar', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
-      next: const Icon(Icons.arrow_forward, color: Colors.white,),
-      done: const Text('Hecho', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
+      skip: const Text('Saltar',
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
+      next: const Icon(
+        Icons.arrow_forward,
+        color: Colors.white,
+      ),
+      done: const Text('Hecho',
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
       dotsDecorator: const DotsDecorator(
         size: Size(10.0, 10.0),
         color: Color(0xFFBDBDBD),

@@ -252,3 +252,7 @@ Future<List<Receta>> getRecetaBusqueda(
     throw Exception('No se ha encontrado el tipo de receta');
   }
 }
+
+delete(int idReceta) async {
+  await http.delete(path + "/delete?idReceta=" + idReceta.toString());
+}

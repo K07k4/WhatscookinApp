@@ -219,6 +219,13 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_plugin_android_lifecycle">
+          <value>
+            <list>
+              <option value="D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-1.0.7/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter_spinkit">
           <value>
             <list>
@@ -317,6 +324,20 @@
             </list>
           </value>
         </entry>
+        <entry key="image_picker">
+          <value>
+            <list>
+              <option value="D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.6.6+1/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="image_picker_platform_interface">
+          <value>
+            <list>
+              <option value="D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker_platform_interface-1.0.0/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="introduction_screen">
           <value>
             <list>
@@ -412,6 +433,13 @@
           <value>
             <list>
               <option value="D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/petitparser-2.4.0/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="plugin_platform_interface">
+          <value>
+            <list>
+              <option value="D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-1.0.2/lib" />
             </list>
           </value>
         </entry>
@@ -644,6 +672,7 @@
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_html-0.8.2/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_keyboard_visibility-0.7.0/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_launcher_icons-0.7.5/lib" />
+      <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-1.0.7/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_spinkit-4.1.2+1/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_statusbarcolor-0.2.3/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_tagging-1.1.0/lib" />
@@ -656,6 +685,8 @@
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/http_multi_server-2.2.0/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-3.1.4/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/image-2.1.4/lib" />
+      <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.6.6+1/lib" />
+      <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker_platform_interface-1.0.0/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/introduction_screen-1.0.8/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/io-0.3.4/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/js-0.6.1+1/lib" />
@@ -670,6 +701,7 @@
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.6.4/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.8.0+1/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/petitparser-2.4.0/lib" />
+      <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-1.0.2/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/pool-1.4.0/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/provider-3.2.0/lib" />
       <root url="file://D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/pub_semver-1.4.4/lib" />

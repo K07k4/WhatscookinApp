@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:whatscookin/api/services/receta.dart' as apiReceta;
 import 'package:whatscookin/pages/receta.dart';
 import 'package:whatscookin/api/api.dart' as api;
+
+import 'package:whatscookin/api/classes/Receta.dart' as RecetaClass;
 
 import 'package:whatscookin/pages/perfil.dart';
 
@@ -102,14 +105,14 @@ class _HomeState extends State<Home> {
       nuevasRecetas();
       mejoresRecetas();
       masPuntuadasRecetas();
-      print("Llamadas realizadas");
     });
   }
 
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
-    Future.delayed(const Duration(seconds: 4), () => setState(() {})); // TODO: Se puede arreglar! Mira busqueda
+    Future.delayed(const Duration(seconds: 3),
+        () => setState(() {})); // TODO: Se puede arreglar! Mira busqueda
     return FutureBuilder(
       future: getData(),
       builder: (context, snapshot) {
@@ -227,7 +230,7 @@ class _HomeState extends State<Home> {
                             child: Container(
                               decoration: BoxDecoration(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(100)),
+                                      BorderRadius.all(Radius.circular(100)),
                                   color: Colors.orange[900]),
                               child: FlatButton(
                                 child: Text(
@@ -238,8 +241,10 @@ class _HomeState extends State<Home> {
                                       fontSize: 22),
                                 ),
                                 onPressed: () async {
-                                  int idAleatorio = await apiReceta.getAleatoria();
-                                  Navigator.pushNamed(context, "/receta", arguments: idAleatorio);
+                                  int idAleatorio =
+                                      await apiReceta.getAleatoria();
+                                  Navigator.pushNamed(context, "/receta",
+                                      arguments: idAleatorio);
                                 },
                               ),
                             ),
@@ -259,12 +264,20 @@ class _HomeState extends State<Home> {
                         fillColor: Color(0xfff0f0f0),
                         suffixIcon: FlatButton(
                           onPressed: () async {
-                            List<int> listIdIngredientes = [];
+                            List<RecetaClass.Receta> listReceta =
+                                await apiReceta.getRecetaBusquedaTitulo(
+                                    busquedaController.text);
 
-                            await apiReceta.getRecetaBusquedaTitulo(busquedaController.text);
-
-                            print("Hecho");
-
+                            if (listReceta.length == 0) {
+                              Fluttertoast.showToast(
+                                  msg: "No existen recetas con esos parámetros",
+                                  toastLength: Toast.LENGTH_LONG,
+                                  backgroundColor: Colors.white,
+                                  textColor: Colors.deepOrange);
+                            } else {
+                              Navigator.pushNamed(context, "/busqueda",
+                                  arguments: listReceta);
+                            }
                           },
                           child: Icon(
                             Icons.search,

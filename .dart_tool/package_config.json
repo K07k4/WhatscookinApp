@@ -188,6 +188,12 @@
       "languageVersion": "2.2"
     },
     {
+      "name": "flutter_plugin_android_lifecycle",
+      "rootUri": "file:///D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-1.0.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
       "name": "flutter_spinkit",
       "rootUri": "file:///D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_spinkit-4.1.2+1",
       "packageUri": "lib/",
@@ -268,6 +274,18 @@
     {
       "name": "image",
       "rootUri": "file:///D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/image-2.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "image_picker",
+      "rootUri": "file:///D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.6.6+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "image_picker_platform_interface",
+      "rootUri": "file:///D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker_platform_interface-1.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.0"
     },
@@ -354,6 +372,12 @@
       "rootUri": "file:///D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/petitparser-2.4.0",
       "packageUri": "lib/",
       "languageVersion": "2.4"
+    },
+    {
+      "name": "plugin_platform_interface",
+      "rootUri": "file:///D:/bin/flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-1.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
     },
     {
       "name": "pool",
@@ -530,7 +554,7 @@
       "languageVersion": "2.1"
     }
   ],
-  "generated": "2020-05-11T16:14:09.096870Z",
+  "generated": "2020-05-14T11:28:43.131358Z",
   "generator": "pub",
   "generatorVersion": "2.7.2"
 }
