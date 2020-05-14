@@ -3,7 +3,6 @@ import 'package:whatscookin/pages/busqueda.dart';
 import 'package:whatscookin/pages/crearReceta.dart';
 import 'package:whatscookin/pages/filtro.dart';
 import 'package:whatscookin/pages/intro.dart';
-import 'package:whatscookin/pages/loading.dart';
 import 'package:whatscookin/pages/login.dart';
 import 'package:whatscookin/pages/olvidopass.dart';
 import 'package:whatscookin/pages/perfil.dart';
@@ -14,7 +13,7 @@ import 'package:whatscookin/pages/startLoading.dart';
 import 'pages/home.dart';
 
 void main() => runApp(MaterialApp(
-        initialRoute: '/crearReceta'
+        initialRoute: '/startLoading'
             '',
         routes: {
           '/home': (context) => Home(),
@@ -29,5 +28,4 @@ void main() => runApp(MaterialApp(
           '/filtro': (context) => Filtro(),
           '/busqueda': (context) => Busqueda(),
           '/crearReceta': (context) => CrearReceta(),
-          '/loading': (context) => Loading()
         }));

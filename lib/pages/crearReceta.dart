@@ -6,21 +6,20 @@ import 'package:flutter_tagging/flutter_tagging.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:whatscookin/api/classes/TipoReceta.dart';
 import 'package:whatscookin/api/classes/Ingrediente.dart';
-import 'package:whatscookin/api/classes/Receta.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:whatscookin/pages/receta.dart';
 
 import 'package:whatscookin/api/api.dart' as api;
 import 'package:whatscookin/api/services/receta.dart' as apiReceta;
 import 'package:whatscookin/api/services/ingrediente.dart' as apiIngrediente;
 import 'package:whatscookin/api/services/imagenes.dart' as apiImagen;
 
-//TODO: Preparar la página para rellenar. Con adaptar un poco está hecho rápido
-
-
 class CrearReceta extends StatefulWidget {
   @override
   CrearRecetaPageState createState() => CrearRecetaPageState();
 }
+
+int idUsuario = 0;
 
 List<int> listIdIngredientes = [];
 List<dynamic> listTipos = [];
@@ -28,28 +27,18 @@ List<dynamic> listTipos = [];
 List<Map> mapIngredientes = [];
 List<Map> mapTipos = [];
 
-String tipoReceta = "Cualquiera";
+String tipoReceta = "";
 var idTipoReceta = 0;
-var duracionMin = 0.0;
-var duracionMax = 120.0;
-var duracionValues = RangeValues(duracionMin, duracionMax);
+var duracion = 1.0;
 var duracionStrMax = "120";
 
-var dificultadMin = 1.0;
-var dificultadMax = 3.0;
-var dificultadValues = RangeValues(dificultadMin, dificultadMax);
-var dificultadStrMin = "Fácil";
-var dificultadStrMax = "Avanzada";
-
-var puntuacionMin = 0.0;
-var puntuacionMax = 5.0;
-var puntuacionValues = RangeValues(puntuacionMin, puntuacionMax);
+var dificultad = 1.0;
+var dificultadStr = "Fácil";
 
 final tituloController = TextEditingController();
-final usuarioController = TextEditingController();
+final instruccionesController = TextEditingController();
 
 class CrearRecetaPageState extends State<CrearReceta> {
-
   dynamic _image;
 
   Future _getImage() async {
@@ -60,7 +49,6 @@ class CrearRecetaPageState extends State<CrearReceta> {
       print('image: $_image');
     });
   }
-
 
   @override
   void initState() {
@@ -107,7 +95,7 @@ class CrearRecetaPageState extends State<CrearReceta> {
               width: 300,
               decoration: BoxDecoration(
                   borderRadius:
-                  BorderRadius.only(bottomRight: Radius.circular(30)),
+                      BorderRadius.only(bottomRight: Radius.circular(30)),
                   color: color2),
             ),
             Container(
@@ -115,7 +103,7 @@ class CrearRecetaPageState extends State<CrearReceta> {
               width: 80,
               decoration: BoxDecoration(
                   borderRadius:
-                  BorderRadius.only(bottomRight: Radius.circular(30)),
+                      BorderRadius.only(bottomRight: Radius.circular(30)),
                   color: color1),
             ),
             SingleChildScrollView(
@@ -128,7 +116,7 @@ class CrearRecetaPageState extends State<CrearReceta> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Text(
-                        "Búsqueda avanzada",
+                        "Crear receta",
                         style: TextStyle(color: Colors.white, fontSize: 22),
                       ),
                       SizedBox(
@@ -166,13 +154,13 @@ class CrearRecetaPageState extends State<CrearReceta> {
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius:
-                              BorderRadius.all(Radius.circular(100)),
+                                  BorderRadius.all(Radius.circular(100)),
                               color: Colors.orange[800]),
                           child: FlatButton(
                             child: Text(
                               "Tipo de receta",
                               style:
-                              TextStyle(color: Colors.white, fontSize: 18),
+                                  TextStyle(color: Colors.white, fontSize: 18),
                             ),
                             onPressed: () {
                               setState(() {});
@@ -189,7 +177,7 @@ class CrearRecetaPageState extends State<CrearReceta> {
                         child: Text(tipoReceta,
                             textAlign: TextAlign.center,
                             style:
-                            TextStyle(color: Colors.white, fontSize: 22)),
+                                TextStyle(color: Colors.white, fontSize: 22)),
                       ),
                       SizedBox(
                         width: 35,
@@ -257,31 +245,20 @@ class CrearRecetaPageState extends State<CrearReceta> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
                     child: SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                          valueIndicatorTextStyle: TextStyle(
-                              color: Colors.deepOrangeAccent,
-                              letterSpacing: 2.0)),
-                      child: RangeSlider(
-                        values: duracionValues,
-                        min: 0,
-                        max: 120,
-                        divisions: 24,
-                        activeColor: Colors.white,
-                        labels: RangeLabels(
-                            '${duracionValues.start.round()} min',
-                            '$duracionStrMax min'),
-                        onChanged: (values) {
-                          setState(() {
-                            if (values.end == 120.0) {
-                              duracionStrMax = "∞";
-                            } else {
-                              duracionStrMax = values.end.toString();
-                            }
-                            duracionValues = values;
-                          });
-                        },
-                      ),
-                    ),
+                        data: SliderTheme.of(context).copyWith(
+                            valueIndicatorTextStyle: TextStyle(
+                                color: Colors.deepOrangeAccent,
+                                letterSpacing: 2.0)),
+                        child: Slider(
+                            value: duracion,
+                            min: 1,
+                            max: 120,
+                            divisions: 119,
+                            activeColor: Colors.white,
+                            label: "$duracion min",
+                            onChanged: (double newValue) {
+                              setState(() => duracion = newValue);
+                            })),
                   ),
                   SizedBox(
                     height: 25,
@@ -297,123 +274,168 @@ class CrearRecetaPageState extends State<CrearReceta> {
                           valueIndicatorTextStyle: TextStyle(
                               color: Colors.deepOrangeAccent,
                               letterSpacing: 2.0)),
-                      child: RangeSlider(
-                        values: dificultadValues,
-                        min: 1,
-                        max: 3,
-                        divisions: 2,
-                        activeColor: Colors.white,
-                        labels: RangeLabels(
-                            '$dificultadStrMin', '$dificultadStrMax'),
-                        onChanged: (values) {
-                          setState(() {
-                            switch (values.end.round()) {
-                              case 1:
-                                dificultadStrMax = "Fácil";
-                                break;
-                              case 2:
-                                dificultadStrMax = "Media";
-                                break;
-                              case 3:
-                                dificultadStrMax = "Avanzada";
-                                break;
-                            }
-                            switch (values.start.round()) {
-                              case 1:
-                                dificultadStrMin = "Fácil";
-                                break;
-                              case 2:
-                                dificultadStrMin = "Media";
-                                break;
-                              case 3:
-                                dificultadStrMin = "Avanzada";
-                                break;
-                            }
-                            dificultadValues = values;
-                          });
-                        },
-                      ),
+                      child: Slider(
+                          value: dificultad,
+                          min: 1,
+                          max: 3,
+                          divisions: 2,
+                          activeColor: Colors.white,
+                          label: "$dificultadStr",
+                          onChanged: (double newValue) {
+                            setState(() {
+                              dificultad = newValue;
+                              switch (newValue.round()) {
+                                case 1:
+                                  dificultadStr = "Fácil";
+                                  break;
+                                case 2:
+                                  dificultadStr = "Media";
+                                  break;
+                                case 3:
+                                  dificultadStr = "Avanzada";
+                                  break;
+                              }
+                            });
+                          }),
                     ),
                   ),
                   SizedBox(
-                    height: 25,
-                  ),
-                  Text(
-                    "Puntuación",
-                    style: TextStyle(color: Colors.white, fontSize: 22),
+                    height: 40,
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-                    child: SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                          valueIndicatorTextStyle: TextStyle(
-                              color: Colors.deepOrangeAccent,
-                              letterSpacing: 2.0)),
-                      child: RangeSlider(
-                        values: puntuacionValues,
-                        min: 0,
-                        max: 5,
-                        divisions: 10,
-                        activeColor: Colors.white,
-                        labels: RangeLabels('${puntuacionValues.start}',
-                            '${puntuacionValues.end}'),
-                        onChanged: (values) {
-                          setState(() {
-                            puntuacionValues = values;
-                          });
-                        },
+                    padding: EdgeInsets.symmetric(horizontal: 45),
+                    child: Material(
+                      elevation: 2.0,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      child: Container(
+                        height: 200,
+                        child: TextField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          controller: instruccionesController,
+                          onChanged: (String value) {},
+                          cursorColor: Colors.deepOrange,
+                          decoration: InputDecoration(
+                              hintText: "Instrucciones",
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 13)),
+                        ),
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 25,
+                    height: 40,
                   ),
                   Padding(
                       padding: EdgeInsets.symmetric(horizontal: 32),
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius:
-                            BorderRadius.all(Radius.circular(100)),
+                                BorderRadius.all(Radius.circular(100)),
                             color: Colors.orange[900]),
                         child: FlatButton(
                           child: Text(
-                            "Buscar",
+                            "Añadir imagen",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 22),
                           ),
                           onPressed: () async {
+                            Fluttertoast.showToast(
+                                msg: "Recomendamos una imagen apaisada",
+                                toastLength: Toast.LENGTH_LONG,
+                                backgroundColor: Colors.deepOrangeAccent,
+                                textColor: Colors.white);
                             _getImage();
                           },
                         ),
                       )),
-                  SizedBox(height: 50,),
-                  Container(
-                    child: _image == null ? Icon(Icons.photo) : Image.file(_image)
+                  SizedBox(
+                    height: 20,
                   ),
-                  SizedBox(height: 40,),
+                  Container(
+                      width: MediaQuery.of(context).size.width * 0.80,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white, width: 1.0)),
+                      child: _image == null
+                          ? Icon(
+                              Icons.photo,
+                              color: Colors.white,
+                              size: 70.0,
+                            )
+                          : Image.file(_image)),
+                  SizedBox(
+                    height: 40,
+                  ),
                   Padding(
                       padding: EdgeInsets.symmetric(horizontal: 32),
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius:
-                            BorderRadius.all(Radius.circular(100)),
+                                BorderRadius.all(Radius.circular(100)),
                             color: Colors.orange[900]),
                         child: FlatButton(
                           child: Text(
-                            "Enviar",
+                            "Crear receta",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 22),
                           ),
                           onPressed: () async {
-                            apiImagen.uploadImagen(1, "receta", _image); // TODO: Hay que elegir el ID que se genera al crear la receta
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            idUsuario = prefs.getInt('idUsuario');
+
+                            if (tituloController.text.isNotEmpty &&
+                                instruccionesController.text.isNotEmpty &&
+                                idTipoReceta > 0 &&
+                                listIdIngredientes.length > 0) {
+                              print(listIdIngredientes.length);
+                              if (_image != null) {
+                                int idReceta = await apiReceta.crearReceta(
+                                    tituloController.text,
+                                    idUsuario,
+                                    idTipoReceta,
+                                    dificultad.round(),
+                                    duracion.round(),
+                                    instruccionesController.text,
+                                    listIdIngredientes);
+
+                                if (idReceta <= 0) {
+                                  Fluttertoast.showToast(
+                                      msg:
+                                          "Comprueba que no hayas creado una receta con el mismo nombre",
+                                      toastLength: Toast.LENGTH_LONG,
+                                      backgroundColor: Colors.white,
+                                      textColor: Colors.deepOrangeAccent);
+                                } else {
+                                  apiImagen.uploadImagen(
+                                      idReceta, "receta", _image);
+                                  Navigator.of(context).popAndPushNamed('/home');
+                                }
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: "Elige una imagen de la galería",
+                                    toastLength: Toast.LENGTH_LONG,
+                                    backgroundColor: Colors.white,
+                                    textColor: Colors.deepOrangeAccent);
+                              }
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: "Rellena todos los campos",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  backgroundColor: Colors.white,
+                                  textColor: Colors.deepOrangeAccent);
+                            }
                           },
                         ),
                       )),
-                  SizedBox(height: 40,),
+                  SizedBox(
+                    height: 40,
+                  ),
                 ],
               ),
             ),
@@ -546,12 +568,16 @@ class _ListaTiposRecetaDialogState extends State<ListaTiposRecetaDialog> {
 
 class TagSearchService {
   static Future<List> getSuggestions(String query) async {
-    List<Ingrediente> listIngredientes = await apiIngrediente.getAllIngredientes();
+    List<Ingrediente> listIngredientes =
+        await apiIngrediente.getAllIngredientes();
     // await Future.delayed(Duration(milliseconds: 400), null);
     List<dynamic> tagList = [];
 
-    for(Ingrediente ingrediente in listIngredientes) {
-      tagList.add({'name': ingrediente.ingrediente, 'value': ingrediente.idIngrediente});
+    for (Ingrediente ingrediente in listIngredientes) {
+      tagList.add({
+        'name': ingrediente.ingrediente,
+        'value': ingrediente.idIngrediente
+      });
     }
     List<dynamic> filteredTagList = <dynamic>[];
     for (var tag in tagList) {

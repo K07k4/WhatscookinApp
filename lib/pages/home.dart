@@ -112,7 +112,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     Future.delayed(const Duration(seconds: 3),
-        () => setState(() {})); // TODO: Se puede arreglar! Mira busqueda
+        () => setState(() {}));
     return FutureBuilder(
       future: getData(),
       builder: (context, snapshot) {

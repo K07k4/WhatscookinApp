@@ -1,7 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:whatscookin/api/api.dart' as api;
+import 'package:whatscookin/api/classes/Comentario.dart';
 import 'package:whatscookin/api/classes/Dificultad.dart';
+import 'package:whatscookin/api/classes/Ingrediente.dart';
 import 'package:whatscookin/api/classes/Receta.dart';
 import 'package:whatscookin/api/classes/TipoReceta.dart';
 
@@ -19,7 +21,7 @@ Future<List> getAllTiposRecetas() async {
 
   List<TipoReceta> lista = [];
 
-  for(int i = 0; i < data.length; i++) {
+  for (int i = 0; i < data.length; i++) {
     lista.add(TipoReceta.fromJson(data[i]));
   }
   return lista;
@@ -255,4 +257,68 @@ Future<List<Receta>> getRecetaBusqueda(
 
 delete(int idReceta) async {
   await http.delete(path + "/delete?idReceta=" + idReceta.toString());
+}
+
+Future<int> crearReceta(
+    String titulo,
+    int idUsuario,
+    int idTipoReceta,
+    int idDificultad,
+    int duracion,
+    String instrucciones,
+    List<int> listaIdIngredientes) async {
+  var request = path +
+      "/add?titulo=" +
+      titulo +
+      "&idUsuario=" +
+      idUsuario.toString() +
+      "&idTipoReceta=" +
+      idTipoReceta.toString() +
+      "&idDificultad=" +
+      idDificultad.toString() +
+      "&duracion=" +
+      duracion.toString() +
+      "&instrucciones=" +
+      instrucciones;
+
+  if (listaIdIngredientes != null) {
+    for (int idIngrediente in listaIdIngredientes) {
+      request += "&idIngrediente=" + idIngrediente.toString();
+    }
+
+    final response = await http.post(request);
+
+    int idReceta;
+
+    try {
+      idReceta = int.parse(response.body);
+    } catch (e) {
+      return 0;
+    }
+
+    print("EL MEGA ID: " + idReceta.toString());
+
+    return idReceta;
+  } else {
+    return 0;
+  }
+}
+
+
+Future<List> getComentariosDeReceta(int idReceta) async {
+  var response = await http.get(api.baseUrl + "/comentario/getComentariosEnReceta?id=" + idReceta.toString());
+
+  if (response.statusCode == 200) {
+    List comentariosBruto = json.decode(response.body);
+
+    List comentarios = [];
+    for (int i = 0; i < comentariosBruto.length; i++) {
+      final comentario = Comentario.fromJson(comentariosBruto[i]);
+      comentarios.add(comentario);
+    }
+
+    return comentarios;
+  } else {
+    throw Exception('No se han encontrado comentarios');
+  }
 }

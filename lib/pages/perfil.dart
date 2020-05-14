@@ -9,6 +9,7 @@ import 'package:whatscookin/api/services/usuario.dart' as apiUsuario;
 import 'package:whatscookin/api/services/receta.dart' as apiReceta;
 import 'package:whatscookin/api/services/favorito.dart' as apiFavorito;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:whatscookin/pages/crearReceta.dart';
 import 'package:whatscookin/pages/login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -134,7 +135,14 @@ class _PerfilState extends State<Perfil> {
             ),
             backgroundColor: Colors.deepOrange,
             onPressed: () {
-              Navigator.pushNamed(context, "/crearReceta");
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CrearReceta(),
+                  // Pass the arguments as part of the RouteSettings. The
+                  // DetailScreen reads the arguments from these settings.
+                ),
+              );
             },
           ),
           body: Stack(
@@ -511,6 +519,7 @@ class _DeleteRecetaState extends State<DeleteReceta> {
                   setState(() {
                     apiReceta.delete(misRecetas[idRecetaBorrar]["id"]); //FIXME: Borra pero no actualiza
                   });
+                  Navigator.pop(context);
                   Navigator.pop(context);
                 },
               ),

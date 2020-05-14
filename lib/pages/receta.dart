@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:whatscookin/api/api.dart' as api;
+import 'package:whatscookin/api/classes/Comentario.dart';
 import 'package:whatscookin/api/services/usuario.dart' as apiUsuario;
 import 'package:whatscookin/api/services/receta.dart' as apiReceta;
 import 'package:whatscookin/api/services/favorito.dart' as apiFavorito;
@@ -56,7 +57,9 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
   var favoritos;
 
   List<dynamic> listIngredientes = [];
+  List<dynamic> listComentarios = [];
   List<Map> ingredientes = [];
+  List<Map> comentarios = [];
 
   String image = "https://images2.imgbox.com/f6/7e/pXXtJViL_o.jpg";
   String avatar =
@@ -76,7 +79,7 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
     infoUsuario();
     infoIngredientes();
     infoFavorito();
-    print("Llamadas realizadas");
+    infoComentarios();
   }
 
   infoVisitante() async {
@@ -95,7 +98,7 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
     idUsuario = receta.idUsuario;
     idDificultad = receta.idDificultad;
     idTipoReceta = receta.idTipoReceta;
-    puntuacion = receta.puntuacion / 2;
+    puntuacion = receta.puntuacion;
 
     titulo = receta.titulo;
     instrucciones = receta.instrucciones;
@@ -155,6 +158,26 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
         map['ingrediente'] = listIngredientes[i].ingrediente;
 
         ingredientes.add(map);
+      }
+    }
+  }
+
+  infoComentarios() async {
+    listComentarios =
+        await Future.value(apiReceta.getComentariosDeReceta(idReceta));
+
+    if (listComentarios.length > 0) {
+      comentarios.clear();
+
+      for (int i = 0; i < listComentarios.length; i++) {
+        var map = {};
+        map['comentario'] = listComentarios[i].comentario;
+
+        var usuario = await apiUsuario.getUsuario(listComentarios[i].idUsuario);
+
+        map['usuario'] = usuario.nombre;
+
+        comentarios.add(map);
       }
     }
   }
@@ -230,7 +253,7 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
                         left: MediaQuery.of(context).size.width * 0.03,
                         child: FlatButton(
                           child: StarRating(
-                            rating: puntuacion,
+                            rating: puntuacion/2,
                           ),
                           onPressed: () {
                             showDialog(
@@ -238,7 +261,7 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
                                 builder: (_) {
                                   return MyDialog();
                                 });
-                          }, // TODO: Hacer algo para cambiar el voto. También debería salir la puntuación media con número
+                          },
                         ),
                       ),
                     ],
@@ -368,14 +391,29 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
                             title: "CÓMO PREPARAR",
                             content: instrucciones),
                         SizedBox(
-                          height: 25.0,
+                          height: 15.0,
                         ),
-                        Divider(),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Text("Hola")
-                        // TODO: Aqui los comentarios y botón para comentar. Dialog para añadir comentario.
+                        /*
+                        // TODO: Posible solucion a añadir comentarios. Si sobra tiempo se incluye
+                        Expanded(
+                            child: ListView.builder(
+                              itemCount: comentarios.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Column(
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: new Text(comentarios[index]['usuario']),
+                                      subtitle: new Text(comentarios[index]['comentario']),
+                                    ),
+                                    Divider(
+                                      height: 2.0,
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          )
+                         */
                       ],
                     ),
                   ),

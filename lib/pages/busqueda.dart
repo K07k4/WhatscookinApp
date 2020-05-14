@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:whatscookin/api/classes/Dificultad.dart';
-import 'package:whatscookin/api/classes/Receta.dart';
+import 'package:whatscookin/api/classes/Receta.dart' as RecetaClass;
 import 'package:whatscookin/api/api.dart' as api;
 import 'package:whatscookin/api/classes/TipoReceta.dart';
 import 'package:whatscookin/api/services/receta.dart' as apiReceta;
 import 'package:whatscookin/api/widgets/StarRating.dart';
+import 'package:whatscookin/pages/receta.dart';
 
-List<Receta> listReceta = [];
+List<RecetaClass.Receta> listReceta = [];
 List<Dificultad> listDificultad = [];
 List<TipoReceta> listTipoReceta = [];
 
@@ -20,8 +21,6 @@ class _BusquedaState extends State<Busqueda> {
   void initState() {
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +58,7 @@ class _BusquedaState extends State<Busqueda> {
 // TODO: SOLUCION A LAS REQUESTS INFINITAS!!!:
 
 class Lists extends StatelessWidget {
-  final List<Receta> _listRecetaBusqueda = listReceta;
+  final List<RecetaClass.Receta> _listRecetaBusqueda = listReceta;
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +77,20 @@ class Lists extends StatelessWidget {
           itemCount: _listRecetaBusqueda.length,
           physics: BouncingScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
-            Receta receta = _listRecetaBusqueda[index];
+            RecetaClass.Receta receta = _listRecetaBusqueda[index];
             return GestureDetector(
               onTap: () {
-                print(receta.titulo);
-                Navigator.pushNamed(context, "/receta",
-                    arguments: receta.idReceta);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Receta(),
+                    // Pass the arguments as part of the RouteSettings. The
+                    // DetailScreen reads the arguments from these settings.
+                    settings: RouteSettings(
+                      arguments: receta.idReceta,
+                    ),
+                  ),
+                );
               },
               child: Card(
                 elevation: 3,
@@ -160,7 +167,7 @@ class Lists extends StatelessWidget {
                             children: <Widget>[
                               StarRating(
                                 color: Colors.deepOrange,
-                                rating: receta.puntuacion,
+                                rating: receta.puntuacion/2,
                                 borderColor: Colors.deepOrange,
                               ),
                             ],
@@ -175,7 +182,7 @@ class Lists extends StatelessWidget {
           },
         );
       } else {
-        return Scaffold(backgroundColor: Colors.transparent,); // TODO: Pantalla de carga?
+        return Scaffold(backgroundColor: Colors.transparent,);
       }
     });
   }
