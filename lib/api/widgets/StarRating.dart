@@ -10,15 +10,16 @@ class StarRating extends StatelessWidget {
   final double rating;
   final RatingChangeCallback onRatingChanged;
   final Color color;
+  final Color borderColor;
 
-  StarRating({this.starCount = 5, this.rating = .0, this.onRatingChanged, this.color});
+  StarRating({this.starCount = 5, this.rating = .0, this.onRatingChanged, this.color, this.borderColor});
 
   Widget buildStar(BuildContext context, int index) {
     Icon icon;
     if (index >= rating) {
       icon = new Icon(
         Icons.star_border,
-        color: Colors.white70,
+        color: borderColor ?? Colors.white,
       );
     }
     else if (index > rating - 1 && index < rating) {

@@ -1,11 +1,16 @@
 import 'dart:async';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
 import 'package:whatscookin/api/classes/TipoReceta.dart';
+import 'package:whatscookin/api/classes/Ingrediente.dart';
+import 'package:whatscookin/api/classes/Receta.dart';
 
+
+import 'package:whatscookin/api/api.dart' as api;
 import 'package:whatscookin/api/services/receta.dart' as apiReceta;
+import 'package:whatscookin/api/services/ingrediente.dart' as apiIngrediente;
 
 class Filtro extends StatefulWidget {
   @override
@@ -18,7 +23,7 @@ List<dynamic> listTipos = [];
 List<Map> mapIngredientes = [];
 List<Map> mapTipos = [];
 
-String tipoReceta = "Tipo";
+String tipoReceta = "Cualquiera";
 var idTipoReceta = 0;
 var duracionMin = 0.0;
 var duracionMax = 120.0;
@@ -46,7 +51,7 @@ class FiltroPageState extends State<Filtro> {
   }
 
   getData() async {
-    await apiReceta.getAllTiposRecetas();
+    listTipos = await apiReceta.getAllTiposRecetas();
   }
 
   @override
@@ -99,7 +104,7 @@ class FiltroPageState extends State<Filtro> {
               child: Column(
                 children: <Widget>[
                   SizedBox(
-                    height: 50,
+                    height: 55,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -152,6 +157,7 @@ class FiltroPageState extends State<Filtro> {
                                   TextStyle(color: Colors.white, fontSize: 18),
                             ),
                             onPressed: () {
+                              setState(() {});
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -274,7 +280,6 @@ class FiltroPageState extends State<Filtro> {
                               color: Colors.deepOrangeAccent,
                               letterSpacing: 2.0)),
                       child: RangeSlider(
-                        // TODO: Debe obtener las dificultades desde la api
                         values: dificultadValues,
                         min: 1,
                         max: 3,
@@ -361,7 +366,7 @@ class FiltroPageState extends State<Filtro> {
                                 fontSize: 22),
                           ),
                           onPressed: () async {
-                            await apiReceta.getRecetaBusqueda(
+                            List<Receta> listReceta = await apiReceta.getRecetaBusqueda(
                                 tituloController.text,
                                 idTipoReceta,
                                 dificultadValues.start.round(),
@@ -371,9 +376,20 @@ class FiltroPageState extends State<Filtro> {
                                 puntuacionValues.start,
                                 puntuacionValues.end,
                                 listIdIngredientes);
+
+                            if(listReceta.length == 0) {
+                              Fluttertoast.showToast(
+                                  msg: "No existen recetas con esos parámetros",
+                                  toastLength: Toast.LENGTH_LONG,
+                                  backgroundColor: Colors.white,
+                                  textColor: Colors.deepOrange);
+                            } else {
+                              Navigator.pushNamed(context, "/busqueda", arguments: listReceta);
+                            }
                           },
                         ),
                       )),
+                  SizedBox(height: 50,)
                 ],
               ),
             ),
@@ -402,7 +418,7 @@ Widget setupAlertDialoadContainer() {
       shrinkWrap: true,
       itemCount: 5,
       itemBuilder: (BuildContext context, int index) {
-        return ListTile();
+        return ListTile(title: Text("Hola"));
       },
     ),
   );
@@ -426,14 +442,17 @@ class _ListaTiposRecetaDialogState extends State<ListaTiposRecetaDialog> {
             height: 20,
           ),
           Text("Tipos de receta",
-              style: TextStyle(fontSize: 20.0, color: Colors.deepOrange)),
+              style: TextStyle(
+                  fontSize: 24.0,
+                  color: Colors.deepOrange,
+                  fontWeight: FontWeight.w700)),
           SizedBox(
             height: 30,
           ),
           Container(
-            height: 300.0,
+            height: 450.0,
             width: 300.0,
-            child: ListView.builder( // TODO: El listado de tipos de receta no se muestra. La api funciona.
+            child: ListView.builder(
               padding: EdgeInsets.all(6),
               itemCount: listTipos.length,
               physics: BouncingScrollPhysics(),
@@ -441,12 +460,59 @@ class _ListaTiposRecetaDialogState extends State<ListaTiposRecetaDialog> {
                 TipoReceta item = listTipos[index];
                 return Column(
                   children: <Widget>[
-                    Text("Receta"),
-                    Text(item.nombre),
+                    Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0)),
+                        color: Colors.white70,
+                        elevation: 3,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              tipoReceta = item.nombre;
+                              idTipoReceta = item.idTipoReceta;
+                              Navigator.pop(context);
+                            });
+                          },
+                          child: Container(
+                            width: 250,
+                            height: 105,
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Image(
+                                  image: NetworkImage(api.baseUrl +
+                                      "/imagen/get?id=" +
+                                      item.idTipoReceta.toString() +
+                                      "&tipo=tipoReceta"),
+                                  width: 50,
+                                  height: 50,
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  item.nombre,
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.orange,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )),
+                    SizedBox(
+                      height: 10,
+                    )
                   ],
                 );
               },
             ),
+          ),
+          SizedBox(
+            height: 30,
           )
         ],
       ),
@@ -456,13 +522,13 @@ class _ListaTiposRecetaDialogState extends State<ListaTiposRecetaDialog> {
 
 class TagSearchService {
   static Future<List> getSuggestions(String query) async {
-    await Future.delayed(Duration(milliseconds: 400), null);
-    List<dynamic> tagList = <dynamic>[]; // TODO: Obtener todos los ingredientes
-    tagList.add({'name': "Pollo", 'value': 1});
-    tagList.add({'name': "Lechuga", 'value': 2});
-    tagList.add({'name': "Aguacate", 'value': 3});
-    tagList.add({'name': "Zanahoria", 'value': 4});
-    tagList.add({'name': "Ternera", 'value': 5});
+    List<Ingrediente> listIngredientes = await apiIngrediente.getAllIngredientes();
+    // await Future.delayed(Duration(milliseconds: 400), null);
+    List<dynamic> tagList = [];
+
+    for(Ingrediente ingrediente in listIngredientes) {
+      tagList.add({'name': ingrediente.ingrediente, 'value': ingrediente.idIngrediente});
+    }
     List<dynamic> filteredTagList = <dynamic>[];
     for (var tag in tagList) {
       if (tag['name'].toLowerCase().contains(query)) {
@@ -471,27 +537,4 @@ class TagSearchService {
     }
     return filteredTagList;
   }
-}
-
-@override
-Widget build(BuildContext context) {
-  return ListView.builder(
-    padding: EdgeInsets.all(6),
-    itemCount: listTipos.length,
-    physics: BouncingScrollPhysics(),
-    itemBuilder: (BuildContext context, int index) {
-      TipoReceta item = listTipos[index];
-      return GestureDetector(
-        onTap: () {
-          idTipoReceta = item.idTipoReceta;
-        },
-        child: Card(
-          elevation: 3,
-          child: Column(
-            children: <Widget>[Text(item.nombre)],
-          ),
-        ),
-      );
-    },
-  );
 }

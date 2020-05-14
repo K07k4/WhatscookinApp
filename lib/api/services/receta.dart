@@ -22,7 +22,6 @@ Future<List> getAllTiposRecetas() async {
   for(int i = 0; i < data.length; i++) {
     lista.add(TipoReceta.fromJson(data[i]));
   }
-  print(lista);
   return lista;
 }
 
@@ -125,6 +124,20 @@ Future<List> getRecetasDeUsuario(int idUsuario) async {
   }
 }
 
+Future<List> getAllDificultades() async {
+  var response = await http.get(path + "/getAllDificultad");
+  List data = await json.decode(response.body);
+
+  List<Dificultad> dificultades = [];
+
+  for (int i = 0; i < data.length; i++) {
+    final dificultad = Dificultad.fromJson(data[i]);
+    dificultades.add(dificultad);
+  }
+
+  return dificultades;
+}
+
 Future<Dificultad> getDificultad(int idDificultad) async {
   final response = await http
       .get(path + "/getDificultad?idDificultad=" + idDificultad.toString());
@@ -166,7 +179,6 @@ Future<List<Receta>> getRecetaBusquedaTitulo(String tituloReceta) async {
       "/getRecetasBusqueda?tituloReceta=" +
       tituloReceta +
       "&idTipoReceta=&idUsuario=&idDificultadMin=&idDificultadMax=&duracionMin=&duracionMax=&puntuacionMin=&puntuacionMax=&idIngrediente=";
-  
   final response = await http.get(request);
   List<Receta> listRecetas = [];
   if (response.statusCode == 200) {
@@ -177,8 +189,6 @@ Future<List<Receta>> getRecetaBusquedaTitulo(String tituloReceta) async {
         counter++;
       }
     } catch (e) {}
-
-    print(listRecetas);
 
     return listRecetas;
   } else {
@@ -221,6 +231,8 @@ Future<List<Receta>> getRecetaBusqueda(
   } else {
     request += "&idIngrediente=";
   }
+
+  print(request);
 
   final response = await http.get(request);
   List<Receta> listRecetas = [];
