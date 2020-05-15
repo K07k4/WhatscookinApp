@@ -5,7 +5,8 @@ import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
 import 'package:whatscookin/api/classes/TipoReceta.dart';
 import 'package:whatscookin/api/classes/Ingrediente.dart';
-import 'package:whatscookin/api/classes/Receta.dart';
+import 'package:whatscookin/api/classes/Receta.dart' as RecetaClass;
+import 'package:whatscookin/pages/receta.dart';
 
 
 import 'package:whatscookin/api/api.dart' as api;
@@ -366,7 +367,7 @@ class FiltroPageState extends State<Filtro> {
                                 fontSize: 22),
                           ),
                           onPressed: () async {
-                            List<Receta> listReceta = await apiReceta.getRecetaBusqueda(
+                            List<RecetaClass.Receta> listReceta = await apiReceta.getRecetaBusqueda(
                                 tituloController.text,
                                 idTipoReceta,
                                 dificultadValues.start.round(),
@@ -384,7 +385,15 @@ class FiltroPageState extends State<Filtro> {
                                   backgroundColor: Colors.white,
                                   textColor: Colors.deepOrange);
                             } else {
-                              Navigator.pushNamed(context, "/busqueda", arguments: listReceta);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Receta(),
+                                  settings: RouteSettings(
+                                    arguments: listReceta,
+                                  ),
+                                ),
+                              );
                             }
                           },
                         ),

@@ -111,8 +111,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
-    Future.delayed(const Duration(seconds: 3),
-        () => setState(() {}));
+    Future.delayed(const Duration(seconds: 3), () => setState(() {}));
     return FutureBuilder(
       future: getData(),
       builder: (context, snapshot) {
@@ -243,8 +242,15 @@ class _HomeState extends State<Home> {
                                 onPressed: () async {
                                   int idAleatorio =
                                       await apiReceta.getAleatoria();
-                                  Navigator.pushNamed(context, "/receta",
-                                      arguments: idAleatorio);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Receta(),
+                                      settings: RouteSettings(
+                                        arguments: idAleatorio,
+                                      ),
+                                    ),
+                                  );
                                 },
                               ),
                             ),
