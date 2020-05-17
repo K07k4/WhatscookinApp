@@ -253,7 +253,7 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
                         left: MediaQuery.of(context).size.width * 0.03,
                         child: FlatButton(
                           child: StarRating(
-                            rating: puntuacion/2,
+                            rating: puntuacion,
                           ),
                           onPressed: () {
                             showDialog(

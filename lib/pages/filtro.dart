@@ -13,6 +13,8 @@ import 'package:whatscookin/api/api.dart' as api;
 import 'package:whatscookin/api/services/receta.dart' as apiReceta;
 import 'package:whatscookin/api/services/ingrediente.dart' as apiIngrediente;
 
+import 'busqueda.dart';
+
 class Filtro extends StatefulWidget {
   @override
   FiltroPageState createState() => FiltroPageState();
@@ -388,7 +390,7 @@ class FiltroPageState extends State<Filtro> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Receta(),
+                                  builder: (context) => Busqueda(),
                                   settings: RouteSettings(
                                     arguments: listReceta,
                                   ),

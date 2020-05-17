@@ -222,9 +222,9 @@ Future<List<Receta>> getRecetaBusqueda(
       "&duracionMax=" +
       duracionMax.toString() +
       "&puntuacionMin=" +
-      (puntuacionMin * 2).toString() +
+      (puntuacionMin).toString() +
       "&puntuacionMax=" +
-      (puntuacionMax * 2).toString();
+      (puntuacionMax).toString();
 
   if (listaIdIngrediente != null) {
     for (int idIngrediente in listaIdIngrediente) {

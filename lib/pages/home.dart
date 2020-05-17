@@ -10,6 +10,7 @@ import 'package:whatscookin/api/classes/Receta.dart' as RecetaClass;
 
 import 'package:whatscookin/pages/perfil.dart';
 
+import 'busqueda.dart';
 import 'filtro.dart';
 
 class Home extends StatefulWidget {
@@ -281,8 +282,15 @@ class _HomeState extends State<Home> {
                                   backgroundColor: Colors.white,
                                   textColor: Colors.deepOrange);
                             } else {
-                              Navigator.pushNamed(context, "/busqueda",
-                                  arguments: listReceta);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Busqueda(),
+                                  settings: RouteSettings(
+                                    arguments: listReceta,
+                                  ),
+                                ),
+                              );
                             }
                           },
                           child: Icon(

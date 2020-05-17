@@ -167,7 +167,7 @@ class Lists extends StatelessWidget {
                             children: <Widget>[
                               StarRating(
                                 color: Colors.deepOrange,
-                                rating: receta.puntuacion/2,
+                                rating: receta.puntuacion,
                                 borderColor: Colors.deepOrange,
                               ),
                             ],
