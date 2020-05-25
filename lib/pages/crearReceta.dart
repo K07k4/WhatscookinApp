@@ -46,7 +46,6 @@ class CrearRecetaPageState extends State<CrearReceta> {
 
     setState(() {
       _image = image;
-      print('image: $_image');
     });
   }
 

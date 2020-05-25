@@ -72,6 +72,7 @@ class Lists extends StatelessWidget {
         future: getData(),
         builder: (context, snapshot) {
       if(snapshot.connectionState == ConnectionState.done) {
+
         return ListView.builder(
           padding: EdgeInsets.all(6),
           itemCount: _listRecetaBusqueda.length,

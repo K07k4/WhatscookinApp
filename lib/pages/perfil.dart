@@ -517,9 +517,8 @@ class _DeleteRecetaState extends State<DeleteReceta> {
                     borderRadius: BorderRadius.circular(12.0)),
                 onPressed: () async {
                   setState(() {
-                    apiReceta.delete(misRecetas[idRecetaBorrar]["id"]); //FIXME: Borra pero no actualiza
+                    apiReceta.delete(misRecetas[idRecetaBorrar]["id"]);
                   });
-                  Navigator.pop(context);
                   Navigator.pop(context);
                 },
               ),

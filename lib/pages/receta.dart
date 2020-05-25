@@ -142,6 +142,10 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
         favIcon = Icons.favorite;
         favColor = Colors.deepOrangeAccent;
         break;
+      } else {
+        esFavorita = false;
+        favIcon = Icons.favorite_border;
+        favColor = Colors.white;
       }
     }
   }
@@ -386,16 +390,17 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
                           height: 20.0,
                         ),
                         _buildStep(
-                            buildImage:
+                            buildImage: // placeholder
                                 "https://images2.imgbox.com/a6/75/zkZ5dCsY_o.png",
                             title: "CÓMO PREPARAR",
                             content: instrucciones),
                         SizedBox(
                           height: 15.0,
                         ),
+
+                        // FIXME: Falla la implementación visual. Recoge perfectamente los comentarios del servidor
                         /*
-                        // TODO: Posible solucion a añadir comentarios. Si sobra tiempo se incluye
-                        Expanded(
+                        Container(
                             child: ListView.builder(
                               itemCount: comentarios.length,
                               itemBuilder: (BuildContext context, int index) {

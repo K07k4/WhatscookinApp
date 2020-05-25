@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:whatscookin/api/api.dart' as api;
 import 'package:whatscookin/api/classes/Comentario.dart';
 import 'package:whatscookin/api/classes/Dificultad.dart';
-import 'package:whatscookin/api/classes/Ingrediente.dart';
 import 'package:whatscookin/api/classes/Receta.dart';
 import 'package:whatscookin/api/classes/TipoReceta.dart';
 
@@ -234,8 +233,6 @@ Future<List<Receta>> getRecetaBusqueda(
     request += "&idIngrediente=";
   }
 
-  print(request);
-
   final response = await http.get(request);
   List<Receta> listRecetas = [];
   if (response.statusCode == 200) {
@@ -246,8 +243,6 @@ Future<List<Receta>> getRecetaBusqueda(
         counter++;
       }
     } catch (e) {}
-
-    print(listRecetas);
 
     return listRecetas;
   } else {
@@ -295,8 +290,6 @@ Future<int> crearReceta(
     } catch (e) {
       return 0;
     }
-
-    print("EL MEGA ID: " + idReceta.toString());
 
     return idReceta;
   } else {
