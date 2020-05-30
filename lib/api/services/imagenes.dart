@@ -22,8 +22,6 @@ Future<String> uploadImagen(int id, String tipo, File file) async {
   var request = http.MultipartRequest('POST',
       Uri.parse(path + "/upload?id=" + id.toString() + "&tipo=" + tipo));
 
-  print(file.path.split("/").last);
-
   request.files.add(http.MultipartFile(
       'file', file.readAsBytes().asStream(), file.lengthSync(),
       filename: file.path.split("/").last));

@@ -234,7 +234,7 @@ class LoginPageState extends State<Login> {
                   ),
                 ),
                 SizedBox(
-                  height: 40,
+                  height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -264,7 +264,7 @@ class LoginPageState extends State<Login> {
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           );

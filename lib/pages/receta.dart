@@ -398,7 +398,7 @@ class _RecetaState extends State<Receta> with WidgetsBindingObserver {
                           height: 15.0,
                         ),
 
-                        // FIXME: Falla la implementación visual. Recoge perfectamente los comentarios del servidor
+                        // TODO: Falla la implementación visual. Recoge perfectamente los comentarios del servidor
                         /*
                         Container(
                             child: ListView.builder(

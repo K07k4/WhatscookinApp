@@ -12,6 +12,8 @@ import 'package:whatscookin/pages/startLoading.dart';
 
 import 'pages/home.dart';
 
+// Lista de todas las vistas y su ruta
+
 void main() => runApp(MaterialApp(
         initialRoute: '/startLoading'
             '',

@@ -218,8 +218,6 @@ class FiltroPageState extends State<Filtro> {
                                   listIdIngredientes
                                       .add((result[counter]['value']));
 
-                                  print(listIdIngredientes.toString());
-
                                   counter++;
                                 }
                               } catch (e) {

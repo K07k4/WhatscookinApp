@@ -7,6 +7,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'home.dart';
 import 'login.dart';
 
+// Esta vista se carga al abrir la aplicación y decide dónde dirigir al usuario
+
 class StartLoading extends StatefulWidget {
   @override
   _LoadingState createState() => _LoadingState();

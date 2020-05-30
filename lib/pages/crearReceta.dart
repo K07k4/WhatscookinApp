@@ -220,8 +220,6 @@ class CrearRecetaPageState extends State<CrearReceta> {
                                   listIdIngredientes
                                       .add((result[counter]['value']));
 
-                                  print(listIdIngredientes.toString());
-
                                   counter++;
                                 }
                               } catch (e) {
@@ -392,7 +390,6 @@ class CrearRecetaPageState extends State<CrearReceta> {
                                 instruccionesController.text.isNotEmpty &&
                                 idTipoReceta > 0 &&
                                 listIdIngredientes.length > 0) {
-                              print(listIdIngredientes.length);
                               if (_image != null) {
                                 int idReceta = await apiReceta.crearReceta(
                                     tituloController.text,

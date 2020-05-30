@@ -10,7 +10,6 @@ Future<List> getAllIngredientes() async {
   List data = await json.decode(response.body);
 
   List<Ingrediente> lista = [];
-  print(data);
   for(int i = 0; i < data.length; i++) {
     lista.add(Ingrediente.fromJson(data[i]));
   }
